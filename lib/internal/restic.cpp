@@ -130,3 +130,6 @@ Error ResticTool::checkSpace(const string& repo, const vector<string>& includes,
     return errRestic;
 }
 
+Error ResticTool::createSnapID(string& snapshotID) {
+    return errRestic;
+}
