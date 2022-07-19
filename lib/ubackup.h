@@ -98,5 +98,15 @@ Error BackupFull(vector<string>& excludes, string& snapshotID, string repo="", s
  * */
 Error BackupSys(vector<string>& includes, string& snapshotID, string repo="", string comment="");
 
+/**
+ * BackupData: 数据备份，备份用户指定的目录。
+ * repo: 备份存储的位置
+ * includes: 用户指定的目录
+ * excludes： 输出参数，给出不能备份的目录
+ * snapshotID: 输出参数，备份完成后返回的备份ID
+ * comment： 对本次备份的备注
+ * */
+Error BackupData(vector<string>& includes, vector<string>& excludes, string& snapshotID, string repo="", string comment="");
+
 }
 #endif /* __UBACKUP_H */
