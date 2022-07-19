@@ -125,13 +125,25 @@ helpRestoreFull()
 void
 helpRestoreSys()
 {
-    return;
+        cout << "  restore system <-n snapshotID> :" << '\n'
+	 << "\trestore system from a system type snapshot." << '\n'
+	 << '\n'
+	 << "    Options for 'restore system' command:" << '\n'
+     	 << "\t-n, <snapshotID>\t\trestore system from a snapshot." << '\n'
+	 << endl;
 }
 
 void
 helpRestoreData()
 {
-   return;
+       cout << "  restore data <-n snapshotID> :" << '\n'
+	 << "\trestore user data from a snapshot." << '\n'
+	 << '\n'
+	 << "    Options for 'restore data' command:" << '\n'
+	 << "\t-r, --repo <repopath>\t\trepository to backup to or restore from." << '\n'
+     	 << "\t-n, <snapshotID>\t\trestore the data from a snapshot." << '\n'
+	 << "\t-e, --exclude <dir1 [dir2 ...]>\t\trestore exclude some directories or files." << '\n'
+	 << endl;
 }
 
 void
