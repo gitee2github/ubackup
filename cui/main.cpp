@@ -423,6 +423,25 @@ void toGrubRestore(string& repopath, const string& snapshotID, const vector<stri
 	exit(EXIT_SUCCESS);
 }
 
+void restoreParse(GetOpts::parsed_opts opts, string& snapshotID, string& repopath, vector<string>& excludes) {
+	GetOpts::parsed_opts::const_iterator opt;
+	if ((opt = opts.find("repopath")) != opts.end()) {
+		repopath = opt->second.front();
+	}
+	if ((opt = opts.find("snapshot")) != opts.end()) {
+		snapshotID = opt->second.front();
+	} else {
+		cerr << "Missing command argument -n snapshotID." << endl;
+		exit(EXIT_FAILURE);
+	}
+	if ((opt = opts.find("exclude")) != opts.end()) {
+		excludes = opt->second;
+	}
+	if ((opt = opts.find("noreboot")) == opts.end()) {
+		toGrubRestore(repopath, snapshotID, excludes);
+	}
+}
+
 void cmdRestoreSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
