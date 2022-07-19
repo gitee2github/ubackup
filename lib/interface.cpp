@@ -245,7 +245,36 @@ Error BackupFull(vector<string>& excludes, string& snapshotID, string repo, stri
 
 Error BackupSys(vector<string>& includes, string& snapshotID, string repo, string comment) {
     Error err;
-    return err;
+    vector<string> excludes;
+    if (repo == "") {
+        repo = c.GetLastBackupPath();
+    }
+    //检查输入参数repo
+    if (!CheckDirExists(repo)) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "repo " + repo + " not exists";
+        return err;
+    }
+
+    Config c(configPath);
+    includes = c.GetIncludes();
+    // 检查repo空间是否足够，不足则报错
+    err = CheckSpace(repo, includes, excludes);
+    if (err.errNo != 0) {
+        return err;
+    }
+    err = backup(repo, includes, excludes, snapshotID, System);
+    // 记录log
+    string logFile = c.GetLogFile();
+    Log log = setLog(repo, snapshotID, SystemBackup, !err.errNo, comment);
+    addLogs(logFile, log);
+    if (!err.errNo) {
+        // repo和snap写入对应info文件
+        string snapInfoFile = c.GetSnapInfoPath();
+        Snapshot snap = setSnap(repo, snapshotID, System);
+        saveSnapshotInfo(snapInfoFile, snap);
+        return err;
+    }
 }
 
 }
