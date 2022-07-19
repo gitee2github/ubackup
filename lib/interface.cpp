@@ -582,4 +582,8 @@ Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<stri
     return err;
 }
 
+void time2string(const time_t time, string& des) {
+    return;
+}
+
 }
