@@ -128,5 +128,10 @@
     {
 	return SystemCmd::quote(str);
     }
+
+    inline string quote(const std::list<string>& strs)
+    {
+	return SystemCmd::quote(strs);
+    }
 #endif
 
