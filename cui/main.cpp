@@ -425,7 +425,45 @@ void cmdRestoreData() {
 }
 
 void cmdRestoreFull() {
-	return;
+	if (!getopts.hasArgs()) {
+		cerr << "restore type should in full, system, data, grub." << endl;
+		exit(EXIT_FAILURE);
+	}
+	string typeStr = getopts.popArg();
+	if (typeStr == "full") {
+	} else if (typeStr == "system") {
+		cmdRestoreSys();
+	} else if (typeStr == "data") {
+		cmdRestoreData();
+	} else if (typeStr == "grub") {
+		cmdRestoreGrub();
+	} else {
+		cerr << "restore type should in full, system, data, grub." << endl;
+		exit(EXIT_FAILURE);
+	}
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "snapshot",		required_argument,	0,	'n' },
+	{ "exclude",		required_argument,	0,	'e' },
+	{ "noreboot",			no_argument,	0,	0 },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("restore full", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "restore type should in full, system, data, grub." << endl;
+		exit(EXIT_FAILURE);
+    }
+	string snapshotID;
+	string repopath;
+	vector<string> excludes;
+	restoreParse(opts, snapshotID, repopath, excludes);
+	Error err = RestoreFull(snapshotID, excludes, repopath);
+	if (err.errNo != 0) {
+		cerr << "Command 'restore full' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	} else {
+		cout << "restore successful." << endl;
+	}
 }
 
 int main(int argc, char** argv) {
