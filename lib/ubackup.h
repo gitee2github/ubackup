@@ -118,5 +118,12 @@ Error BackupData(vector<string>& includes, vector<string>& excludes, string& sna
  * */
 Error PreBackup(vector<string>& includes, vector<string>& excludes, backupType type);
 
+// 系统还原不提供需忽略的还原目录
+/**
+ * RestoreSys: 系统还原，选择一个备份ID进行还原。
+ * snapshotID： 备份ID
+ * */
+Error RestoreSys(const string& snapshotID, string repo = "", string target = "/");
+
 }
 #endif /* __UBACKUP_H */

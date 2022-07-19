@@ -328,4 +328,9 @@ Error PreBackup(vector<string>& includes, vector<string>& excludes, backupType t
     return err;
 }
 
+Error RestoreSys(const string& snapshotID, string repo, string target) {
+    vector<string> excludes;
+    return RestoreFull(snapshotID, excludes, repo, target);
+}
+
 }
