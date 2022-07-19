@@ -66,6 +66,37 @@ Error cannotInclude(Config c, vector<string> includes, vector<string> exclude) {
     return err;
 }
 
+void addLogs(const string& logFile, const Log& log) {
+    Error err;
+    boost::property_tree::ptree root;
+    boost::property_tree::ptree pt1;
+    string timeStr;
+    time2string(log.operationTime, timeStr);
+    pt1.put("time", timeStr);
+    pt1.put("snapID", log.snaps.front());
+    pt1.put("repo", log.repo);
+    string opTypeStr;
+    operationType2string(log.opType, opTypeStr);
+    pt1.put("op_type", opTypeStr);
+    pt1.put<bool>("status", log.status);
+    pt1.put("comment", log.comment);
+    if (!CheckDirExists(logFile) || boost::filesystem::is_empty(logFile)) {
+        if (!createFile(logFile)) {
+            cerr << "Error creating log file: " << logFile << endl;
+            return;
+        }
+        SystemCmd cmd("sudo touch " + logFile);
+        boost::property_tree::ptree ptSnap;
+        ptSnap.push_back(make_pair("", pt1));
+        root.add_child("log", ptSnap);
+    } else {
+        boost::property_tree::read_json<boost::property_tree::ptree>(logFile, root);
+        if (root.count("log")) {
+            root.get_child("log").push_back(make_pair("", pt1));
+        }
+    }
+    boost::property_tree::write_json(logFile, root);
+}
 
 
 
