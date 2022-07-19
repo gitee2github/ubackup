@@ -75,6 +75,30 @@ Error ResticTool::backup(const string& repo, vector<string>& includes, vector<st
 }
 
 Error ResticTool::restore(const string& repo, const string& target, const string& snapshotID, vector<string>& excludes, vector<string>& includes) {
-   Error err;
-   return err;
+    Error err;
+    string resticCmd = "restic ";
+    string subCommand = "restore ";
+    subCommand += snapshotID;
+    string options;
+    options = options + " -r " + repo;
+    options = options + " --target " + target;
+    if (!excludes.empty()) {
+        string userExclude;
+        for (auto it = excludes.begin(); it != excludes.end(); it++) {
+            userExclude += " --exclude ";
+            userExclude += *it;
+        }
+        options += userExclude;
+    }
+    resticCmd = resticCmd + subCommand + options;
+    cout << resticCmd << endl;
+    SystemCmd cmd(resticCmd);
+
+    if (cmd.retcode() != 0) {
+        for (const string& line : cmd.stderr())
+	        cerr << line << endl;
+        err.errNo = cmd.retcode();
+        err.error = "restore failed";
+    }
+    return err;
 }
