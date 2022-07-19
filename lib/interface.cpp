@@ -346,4 +346,8 @@ Error RestoreFull(const string& snapshotID, vector<string>& excludes, string rep
     return err;
 }
 
+Error RestoreData(const string& snapshotID, vector<string>& excludes, string repo) {
+    return RestoreFull(snapshotID, excludes, repo);
+}
+
 }
