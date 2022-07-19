@@ -589,4 +589,8 @@ void time2string(const time_t time, string& des) {
     des=buffer;
 }
 
+void string2time(time_t& time, const string& des) {
+    return;
+}
+
 }
