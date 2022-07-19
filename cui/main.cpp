@@ -476,7 +476,29 @@ void cmdRestoreFull() {
 }
 
 void cmdRemove() {
-	return;
+	const struct option options[] = {
+		{ "list",		required_argument,	0,	'l' },
+		{ 0, 0, 0, 0 }
+    	};
+	GetOpts::parsed_opts opts = getopts.parse("remove", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "command 'remove' does not require parameters." << endl;
+		exit(EXIT_FAILURE);
+    	}
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> snaps;
+	if ((opt = opts.find("list")) != opts.end()) {
+		snaps = opt->second;
+	} else {
+		cerr << "Missing command argument --list." << endl;
+		exit(EXIT_FAILURE);
+	}
+	Error err = RemoveSnapshots(snaps);
+	if (err.errNo != 0) {
+		cerr << "Command 'remove' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	}
 }
 
 int main(int argc, char** argv) {
