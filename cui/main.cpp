@@ -154,7 +154,11 @@ helpRestore()
 	helpRestoreData();
 }
 
-
+void
+helpRemove()
+{
+	return;
+}
 
 void cmdBackupSys() {
 	const struct option options[] = {
@@ -466,11 +470,16 @@ void cmdRestoreFull() {
 	}
 }
 
+void cmdRemove() {
+	return;
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
 	Cmd("backup", cmdBackupFull, helpBackup),
-	Cmd("restore", cmdRestoreFull, helpRestore)
+	Cmd("restore", cmdRestoreFull, helpRestore),
+	Cmd("remove", cmdRemove, helpRemove)
 	}	
   	  return 0;
 }
