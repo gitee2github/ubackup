@@ -124,5 +124,9 @@
 	static const unsigned line_limit = 50;
     };
 
+    inline string quote(const string& str)
+    {
+	return SystemCmd::quote(str);
+    }
 #endif
 
