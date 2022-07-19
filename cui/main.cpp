@@ -343,6 +343,48 @@ void cmdRestoreSys() {
 	exit(EXIT_SUCCESS);
 }
 
+void cmdRestoreGrub() {
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "snapshot",		required_argument,	0,	'n' },
+	{ "target",			required_argument,	0,	't' },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("restoregrub", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "restore type should in full, system, data, grub." << endl;
+		exit(EXIT_FAILURE);
+    }
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> excludes;
+	if ((opt = opts.find("repopath")) != opts.end()) {
+		repopath = opt->second.front();
+	} else {
+		cerr << "Missing command argument repopath." << endl;
+		exit(EXIT_FAILURE);
+	}
+	string snapshotID;
+	if ((opt = opts.find("snapshot")) != opts.end()) {
+		snapshotID = opt->second.front();
+	} else {
+		cerr << "Missing command argument -n snapshotID." << endl;
+		exit(EXIT_FAILURE);
+	}
+	string target;
+	if ((opt = opts.find("target")) != opts.end()) {
+		target = opt->second.front();
+	} else {
+		cerr << "Missing command argument target." << endl;
+		exit(EXIT_FAILURE);
+	}
+	Error err = RestoreSys(snapshotID, repopath, target);
+	if (err.errNo != 0) {
+		cerr << "Command 'restoregrub' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
+}     
 
 void cmdRestoreFull() {
 	return;
