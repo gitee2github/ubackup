@@ -192,5 +192,8 @@ void string2backupType(const string& src, backupType& type);
 
 void operationType2string(const operationType& type, string& des);
 
+void string2operationType(const string& src, operationType& type);
+// 需维护的文件： 默认排除的目录、整机备份时不能排除的目录、grub显示条数&上次备份位置&restic密码等配置文件、snapshot记录、repo记录、日志文件
+
 }
 #endif /* __UBACKUP_H */

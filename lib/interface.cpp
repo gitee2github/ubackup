@@ -618,4 +618,8 @@ void operationType2string(const operationType& type, string& des) {
     des = m.find(type)->second;
 }
 
+void string2operationType(const string& src, operationType& type) {
+    return;
+}
+
 }
