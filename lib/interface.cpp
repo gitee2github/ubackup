@@ -243,4 +243,9 @@ Error BackupFull(vector<string>& excludes, string& snapshotID, string repo, stri
     return err;
 }
 
+Error BackupSys(vector<string>& includes, string& snapshotID, string repo, string comment) {
+    Error err;
+    return err;
+}
+
 }
