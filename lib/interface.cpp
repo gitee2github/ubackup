@@ -350,4 +350,9 @@ Error RestoreData(const string& snapshotID, vector<string>& excludes, string rep
     return RestoreFull(snapshotID, excludes, repo);
 }
 
+Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type) {
+    Error err;
+    return err;
+}
+
 }

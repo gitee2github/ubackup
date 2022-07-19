@@ -141,5 +141,17 @@ Error RestoreFull(const string& snapshotID, vector<string>& excludes, string rep
  * */
 Error RestoreData(const string& snapshotID, vector<string>& excludes, string repo = "");
 
+// 查找出备份的snapshot，整机、系统、数据
+/**
+ * ListSnaps: 按备份类型和备份位置查找备份。
+ * repo: 备份存储的位置
+ * backupType: 备份类型，整体备份/系统备份/数据备份
+ * snapshots： 输出参数，备份信息
+ * */
+Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type);
+
+
+
+
 }
 #endif /* __UBACKUP_H */
