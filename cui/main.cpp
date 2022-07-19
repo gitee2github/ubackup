@@ -125,7 +125,12 @@ helpRestoreFull()
 void
 helpRestoreSys()
 {
-    return;
+        cout << "  restore system <-n snapshotID> :" << '\n'
+	 << "\trestore system from a system type snapshot." << '\n'
+	 << '\n'
+	 << "    Options for 'restore system' command:" << '\n'
+     	 << "\t-n, <snapshotID>\t\trestore system from a snapshot." << '\n'
+	 << endl;
 }
 
 void
