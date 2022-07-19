@@ -134,6 +134,19 @@ void saveSnapshotInfo(const string& snapFile, const Snapshot& snapshot) {
     boost::property_tree::write_json(snapFile, root);
 }
 
-
+void removeSnapshotInfo(const string& snapFile, const string& snapshotID) {
+    if (!CheckDirExists(snapFile)) {
+        return;
+    }
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json<boost::property_tree::ptree>(snapFile, root);
+    if (root.count("snapshot")) {
+        boost::property_tree::ptree ptSnap = root.get_child("snapshot");
+        if (ptSnap.count(snapshotID)) {
+            root.get_child("snapshot").erase(snapshotID);
+        }
+        boost::property_tree::write_json(snapFile, root);
+    }
+}
 
 }
