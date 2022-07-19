@@ -47,7 +47,24 @@ Error cannotExclude(Config c, vector<string> excludes) {
     return err;
 }
 
+Error cannotInclude(Config c, vector<string> includes, vector<string> exclude) {
+    Error err;
+    string excludes;
+    for (auto dir : c.GetExcludes()) {
+        excludes += " " + dir;
+    }
+    for (auto dir : c.GetExcludes()) {
+        for (auto include : includes) {
+            if (!include.compare(0, dir.length(), dir)) {
+                err.errNo = 1;
+                err.error = "fire or directory " + dir + " cannot backup.\n";
+                err.error += "the following directory cannot backup: " + excludes;
+            }
+        }
+    }
 
+    return err;
+}
 
 
 
