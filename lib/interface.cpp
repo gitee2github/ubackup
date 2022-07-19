@@ -517,6 +517,21 @@ Error ShowLogs(vector<Log>& logs) {
 
 Error CheckDirsExists(const vector<string>& directory) {
     Error err;
+    vector<string> notexists;
+    for (auto dir : directory) {
+        if (!CheckDirExists(dir)) {
+            notexists.push_back(dir);
+        }
+    }
+    if (!notexists.empty()) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "file or directory ";
+        for (auto it : notexists) {
+            err.error += it + " ";
+        }
+        err.error += " not exists";
+    }
+
     return err;
 }
 
