@@ -316,4 +316,9 @@ Error BackupData(vector<string>& includes, vector<string>& excludes, string& sna
     return err;
 }
 
+Error PreBackup(vector<string>& includes, vector<string>& excludes, backupType type) {
+    Error err;
+    return err;
+}
+
 }
