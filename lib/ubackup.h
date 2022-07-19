@@ -108,5 +108,15 @@ Error BackupSys(vector<string>& includes, string& snapshotID, string repo="", st
  * */
 Error BackupData(vector<string>& includes, vector<string>& excludes, string& snapshotID, string repo="", string comment="");
 
+// includes:对于整机备份：不能忽略的目录；对于系统备份：将备份的目录；对于数据备份：为空
+// excludes:默认忽略的目录
+/**
+ * PreBackup: 备份前检查默认备份/忽略/不能忽略的目录。
+ * includes: 输出参数，对于整机备份：不能忽略的目录；对于系统备份：将备份的目录；对于数据备份：为空
+ * excludes： 输出参数，默认忽略的目录
+ * backupType: 备份类型，整体备份/系统备份/数据备份
+ * */
+Error PreBackup(vector<string>& includes, vector<string>& excludes, backupType type);
+
 }
 #endif /* __UBACKUP_H */
