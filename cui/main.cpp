@@ -168,7 +168,13 @@ helpRemove()
 void
 helpListAllSnaps()
 {
-	return;
+    	cout << "  list:" << '\n'
+	 << "\tlist objects in the repository based on type." << '\n'
+	 << '\n'
+	 << "    Options for 'list' command:" << '\n'
+     	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
+     	 << "\t-t, --type <backupType>\t\tbackup type, such as \"full, system, data\"." << '\n'
+	 << endl;
 }
 
 void cmdBackupSys() {
