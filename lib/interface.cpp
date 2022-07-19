@@ -334,7 +334,15 @@ Error RestoreSys(const string& snapshotID, string repo, string target) {
 }
 
 Error RestoreFull(const string& snapshotID, vector<string>& excludes, string repo, string target) {
-    Error err;
+    Error err = CheckRestoreInfo(repo, snapshotID, excludes);
+    if (err.errNo) {
+        return err;
+    }
+    err = restore(repo, excludes, snapshotID, target);
+    // 记录log
+    string logFile = c.GetLogFile();
+    Log log = setLog(repo, snapshotID, FullRestore, !err.errNo, "");
+    addLogs(logFile, log);
     return err;
 }
 
