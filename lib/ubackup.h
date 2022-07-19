@@ -190,5 +190,7 @@ void backupType2string(const backupType& type, string& des);
 
 void string2backupType(const string& src, backupType& type);
 
+void operationType2string(const operationType& type, string& des);
+
 }
 #endif /* __UBACKUP_H */
