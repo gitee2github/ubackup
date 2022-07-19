@@ -440,6 +440,50 @@ Error RemoveSnapshots(const vector<string>& snapshotID) {
 
 Error CheckSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes) {
     Error err;
+    string dfCmd = "df -k";
+    dfCmd += repo + " | awk 'END {print}'";
+    SystemCmd cmd(dfCmd);
+    if (cmd.retcode()) {
+        for (auto out : cmd.stderr()) {
+            cerr << out << endl;
+        }
+        return err;
+    }
+    string result = cmd.stdout().front();
+    vector<string> tmp;
+    split(result, tmp);
+    if (tmp.size() < 6) {
+        return err;
+    }
+    long available = atol(tmp[3].c_str());
+    cout << available << endl;
+    if (!includes.empty()) {
+        long size = 0;
+        for (auto include : includes) {
+            string duCmd = "du --max-depth 1 -lk " + include;
+            SystemCmd cmd(duCmd);
+            if (cmd.retcode()) {
+                for (auto out : cmd.stderr()) {
+                    cerr << out << endl;
+                }
+                return err;
+            }
+            string result = cmd.stdout().front();
+            vector<string> tmp;
+            split(result, tmp);
+            if (tmp.size() < 1) {
+                return err;
+            }
+            cout << result << endl;
+            size += atol(tmp[0].c_str());
+        }
+        if (available <= size) {
+            err.errNo = 1;
+            err.error = "no enough space, available: " + to_string(available) + "k, backup size:" + to_string(size) + "k";
+        }
+    } else {
+
+    }
     return err;
 }
 
