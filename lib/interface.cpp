@@ -613,4 +613,8 @@ void string2backupType(const string& src, backupType& type) {
     type = m.find(src)->second;
 }
 
+void operationType2string(const operationType& type, string& des) {
+    return;
+}
+
 }
