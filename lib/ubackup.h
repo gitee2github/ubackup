@@ -162,6 +162,16 @@ Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type
  * */
 Error RemoveSnapshots(const vector<string>& snapshotID);
 
+// 检查指定仓库目录空间是否能存放 includes中的所有文件、目录 or 根目录下除excludes之外的其他目录
+// 仓库剩余空间大于备份目录大小
+/**
+ * CheckSpace: 仓库剩余空间是否大于待备份目录大小。
+ * repo: 备份存储的位置
+ * includes： 用户指定的目录
+ * excludes： 用户指定排除的目录
+ * */
+Error CheckSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes);
+
 
 }
 #endif /* __UBACKUP_H */

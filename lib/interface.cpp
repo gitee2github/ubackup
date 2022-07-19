@@ -438,5 +438,10 @@ Error RemoveSnapshots(const vector<string>& snapshotID) {
     return err;
 }
 
+Error CheckSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes) {
+    Error err;
+    return err;
+}
+
 
 }
