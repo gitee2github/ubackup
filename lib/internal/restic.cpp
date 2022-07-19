@@ -26,5 +26,50 @@ Error errRestic;
 
 Error ResticTool::backup(const string& repo, vector<string>& includes, vector<string>& excludes, string& snapshotID) {
     Error err;	
+    string resticCmd = "restic ";
+    string subCommand = "backup";
+    string options;
+    options = options + " -r " + repo;
+    if (includes.empty()) {
+        subCommand += " /";
+        string userExclude;
+        for (auto it = excludes.begin(); it != excludes.end(); it++) {
+            userExclude += " --exclude ";
+            userExclude += *it;
+        }
+        options += userExclude;
+    } else {
+        string userInclude;
+        for (auto it = includes.begin(); it != includes.end(); it++) {
+            userInclude += " ";
+            userInclude += *it;
+        }
+        options += userInclude;
+    }
+    resticCmd = resticCmd + subCommand + options;
+    cout << resticCmd << endl;
+    err = createRepo(repo);
+    if (err.errNo) {
+        return err;
+    }
+    SystemCmd cmd(resticCmd);
+
+    // restic 0和3都是成功，3是有错误信息的成功(如部分目录无权限等)，1是失败
+    if (cmd.retcode() != 0 && cmd.retcode() != 3) {
+        for (const string& line : cmd.stderr())
+	        cerr << line << endl;
+        err.errNo = cmd.retcode();
+        err.error = "backup failed";
+        return err;
+    }
+    for (vector<string>::const_iterator cit = cmd.stdout().begin(); cit != cmd.stdout().end(); cit++) {
+	    cout << *cit << endl;
+        if (cit->find("saved")!=string::npos) {
+            cout << cit->find("saved") << endl;
+            vector<string> splits;
+            split(*cit, splits);
+            snapshotID = splits[1];
+        }
+    }
     return err;
 }
