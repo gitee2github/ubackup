@@ -564,7 +564,22 @@ void cmdListSnaps() {
 }
 
 void cmdShowLogs() {
-	return;
+	vector<Log> logs;
+	Error err = ShowLogs(logs);
+	if (err.errNo != 0) {
+		cerr << "Command 'log' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	}
+	cout << "operation time" << " |" << "snapshotID" << " |" << "repo" << " |" << "operation type" << " |" << "status" << " |" << "comment" << endl;
+	for (auto log : logs) {
+		string timeStr;
+		time2string(log.operationTime, timeStr);
+		string opTypeStr;
+		operationType2string(log.opType, opTypeStr);
+		string status;
+		status = log.status ? "true" : "false";
+		cout << timeStr << " |" << log.snaps.front() << " |" << log.repo << " |" << opTypeStr << " |" << status << " |" << log.comment << endl;
+	} 
 }
 
 int main(int argc, char** argv) {
