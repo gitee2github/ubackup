@@ -318,6 +318,13 @@ Error BackupData(vector<string>& includes, vector<string>& excludes, string& sna
 
 Error PreBackup(vector<string>& includes, vector<string>& excludes, backupType type) {
     Error err;
+    Config c(configPath);
+    excludes = c.GetExcludes();
+    if (type == System) {
+        includes = c.GetIncludes();
+    } else if (type == Full) {
+        includes = c.GetCannotExcludes();
+    }
     return err;
 }
 
