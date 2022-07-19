@@ -32,7 +32,20 @@ namespace ubackup{
 const string configPath = "/etc/ubackup/ubackup.json";
 Config c(configPath);
 	
-
+Error cannotExclude(Config c, vector<string> excludes) {
+    Error err;
+    for (auto dir : c.GetCannotExcludes())
+    {
+        for (auto exclude : excludes)
+        {
+            if (!exclude.compare(0, dir.length(), dir)) {
+                err.errNo = 1;
+                err.error = "fire or directory " + dir + " cannot exclude.\n";
+            }
+        }
+    }
+    return err;
+}
 
 
 
