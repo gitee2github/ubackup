@@ -157,7 +157,12 @@ helpRestore()
 void
 helpRemove()
 {
-	return;
+	cout << "  remove <-l snapshotID1 [snapshotID2 ...]> :" << '\n'
+	 << "\tremoves snapshots according to a policy." << '\n'
+	 << '\n'
+	 << "    Options for 'remove' command:" << '\n'
+     	 << "\t-l, --list <snapshotID1> [snapshotID2 ...]\t\tremoves snapshots according to a policy." << '\n'     
+	 << endl;
 }
 
 void cmdBackupSys() {
