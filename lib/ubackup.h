@@ -71,7 +71,7 @@ enum operationType {
 
 struct Log {
     time_t operationTime;
-//    vector<Snapshot> snaps;
+    vector<Snapshot> snaps;
     vector<string> snaps;
     operationType opType;
     bool status;
