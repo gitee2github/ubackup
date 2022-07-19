@@ -279,6 +279,40 @@ Error BackupSys(vector<string>& includes, string& snapshotID, string repo, strin
 
 Error BackupData(vector<string>& includes, vector<string>& excludes, string& snapshotID, string repo, string comment) {
     Error err;
+    if (repo == "") {
+        repo = c.GetLastBackupPath();
+    }
+    //检查输入参数repo和excludes，excludes不能排除项检查
+    if (!CheckDirExists(repo)) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "repo " + repo + " not exists";
+        return err;
+    }
+    err = CheckDirsExists(includes);
+    if (err.errNo) {
+        return err;
+    }
+    Config c(configPath);
+    err = cannotInclude(c, includes, excludes);
+    if (err.errNo) {
+        return err;
+    }
+    // 检查repo空间是否足够，不足则报错
+    err = CheckSpace(repo, includes, excludes);
+    if (err.errNo) {
+        return err;
+    }
+    err = backup(repo, includes, excludes, snapshotID, Data);
+    // 记录log
+    string logFile = c.GetLogFile();
+    Log log = setLog(repo, snapshotID, DataBackup, !err.errNo, comment);
+    addLogs(logFile, log);
+    if (!err.errNo) {
+        // repo和snap写入对应info文件
+        string snapInfoFile = c.GetSnapInfoPath();
+        Snapshot snap = setSnap(repo, snapshotID, Data);
+        saveSnapshotInfo(snapInfoFile, snap);
+    }
     return err;
 }
 
