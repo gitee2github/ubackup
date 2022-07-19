@@ -53,6 +53,8 @@
 	int executeRestricted(const string& Command_Cv,
 			      unsigned long MaxTimeSec, unsigned long MaxLineOut,
 			      bool& ExceedTime, bool& ExceedLines);
+    public:
+	const vector<string>& stdout() const { return Lines_aC[IDX_STDOUT]; }
     protected:
 
 	unsigned numLines(bool Selected_bv = false, OutputStream Idx_ii = IDX_STDOUT) const;
