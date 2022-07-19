@@ -150,7 +150,8 @@ Error RestoreData(const string& snapshotID, vector<string>& excludes, string rep
  * */
 Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type);
 
-
+//  查找出所有备份的snapshot
+ Error ListAllSnaps(vector<Snapshot>& snapshots);
 
 
 }

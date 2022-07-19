@@ -367,4 +367,10 @@ Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type
     return err;
 }
 
+Error ListAllSnaps(vector<Snapshot>& snapshots) {
+    Error err;
+    return err;
+}
+
+
 }
