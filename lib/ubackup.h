@@ -178,6 +178,8 @@ Error ShowLogs(vector<Log>& logs);
 // CheckDirExists： 检查目录是否存在
 Error CheckDirsExists(const vector<string>& directory);
 
+bool CheckDirExists(const string& directory);
+
 
 }
 #endif /* __UBACKUP_H */

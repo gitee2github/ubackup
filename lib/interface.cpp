@@ -535,4 +535,9 @@ Error CheckDirsExists(const vector<string>& directory) {
     return err;
 }
 
+bool CheckDirExists(const string& directory) {
+    bool exist= false;
+    return exist;
+}
+
 }
