@@ -186,5 +186,7 @@ void time2string(const time_t time, string& des);
 
 void string2time(time_t& time, const string& des);
 
+void backupType2string(const backupType& type, string& des);
+
 }
 #endif /* __UBACKUP_H */
