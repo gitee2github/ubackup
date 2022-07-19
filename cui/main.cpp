@@ -514,7 +514,44 @@ void cmdRemove() {
 }
 
 void cmdListSnaps() {
-	return;
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "type",			required_argument,	0,	't' },
+	{ 0, 0, 0, 0 }
+    	};
+	GetOpts::parsed_opts opts = getopts.parse("list", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "command 'list' does not require parameters." << endl;
+		exit(EXIT_FAILURE);
+    	}
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> excludes;
+	if ((opt = opts.find("repopath")) != opts.end())
+	repopath = opt->second.front();
+
+	backupType type;
+	vector<Snapshot> snaps;
+	Error err;
+	if ((opt = opts.find("type")) != opts.end()) {
+		string2backupType(opt->second.front(), type);
+		err = ListSnaps(repopath, snaps, type);
+	} else {
+		err = ListAllSnaps(snaps);
+	}
+
+	if (err.errNo != 0) {
+		cerr << "Command 'list' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	}
+	cout << "snapshotID" << " |" << "time" << " |" << "type" << " |" << "repo" << " |" << "repo device" << " |" << "repo mount" << endl;
+	for (auto snap : snaps) {
+		string timeString;
+		time2string(snap.time, timeString);
+		string typeString;
+		backupType2string(snap.type, typeString);
+		cout << snap.snapshotID << " |" << timeString << " |" << typeString << " |" << snap.repo <<  " |" << snap.repoDevice <<  " |" << snap.repoMount << endl;
+	}
 }
 
 int main(int argc, char** argv) {
