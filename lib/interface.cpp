@@ -614,7 +614,8 @@ void string2backupType(const string& src, backupType& type) {
 }
 
 void operationType2string(const operationType& type, string& des) {
-    return;
+    map<operationType, string> m = { {FullBackup, "full backup"}, {SystemBackup, "system backup"}, {DataBackup, "data backup"}, {FullRestore, "full restore"}, {SystemRestore, "system restore"}, {DataRestore, "data restore"}, {RemoveSnaps, "remove"} };
+    des = m.find(type)->second;
 }
 
 }
