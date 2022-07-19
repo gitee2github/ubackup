@@ -89,5 +89,14 @@ struct Log {
  * */
 Error BackupFull(vector<string>& excludes, string& snapshotID, string repo="", string comment="");
 
+/**
+ * BackupSys: 系统备份，备份特定的目录。
+ * repo: 备份存储的位置
+ * includes: 输出参数，将要备份的目录
+ * snapshotID: 输出参数，备份完成后返回的备份ID
+ * comment： 对本次备份的备注
+ * */
+Error BackupSys(vector<string>& includes, string& snapshotID, string repo="", string comment="");
+
 }
 #endif /* __UBACKUP_H */
