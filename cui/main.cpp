@@ -109,6 +109,49 @@ helpBackup()
 	helpBackupData();
 }
 
+
+void cmdBackupSys() {
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "comment",		required_argument,	0,	'm' },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("backupsys", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "backup type should in full, system, data." << endl;
+		exit(EXIT_FAILURE);
+    }
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> excludes;
+	if ((opt = opts.find("repopath")) != opts.end()) {
+		repopath = opt->second.front();
+	}
+	string comment;
+	if ((opt = opts.find("comment")) != opts.end()) {
+		comment = opt->second.front();
+	}
+	vector<string> defaultExcludes;
+    vector<string> includes;
+    // 备份前调用PreBackup获取将备份的目录
+    Error err;
+	err = PreBackup(includes, defaultExcludes, System);
+    if (err.errNo != 0) {
+        cerr << "PreBackup error: " << err.error << endl;
+        exit(err.errNo);
+    }
+	string snapID;
+
+	err = BackupSys(includes, snapID, repopath, comment);
+	if (err.errNo != 0) {
+		cerr << "Command 'backupsys' failed, error: " << err.error << endl;
+		exit(err.errNo);
+	} else {
+		cout << "backup successful, snapshot: " << snapID << endl;
+	}
+}
+
+
 void cmdBackupFull() {
 	return;
 }
