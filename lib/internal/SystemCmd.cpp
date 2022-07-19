@@ -43,3 +43,8 @@ SystemCmd::SystemCmd(const string& Command_Cv, bool log_output)
     execute( Command_Cv );
 }
 
+void SystemCmd::init()
+{
+    return;
+}
+
