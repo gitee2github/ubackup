@@ -545,6 +545,40 @@ bool CheckDirExists(const string& directory) {
 
 Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<string>& excludes) {
     Error err;
+    if (!excludes.empty()) {
+        err = CheckDirsExists(excludes);
+        if (err.errNo) {
+            return err;
+        }
+    }
+    string snapInfoPath = c.GetSnapInfoPath();
+    vector<Snapshot> allSnaps;
+    ListAllSnaps(allSnaps);
+    auto it = allSnaps.begin();
+    for (;it != allSnaps.end(); it++) {
+        if (snapshotID == it->snapshotID) {
+            if (repo == "") {
+                repo = it->repo;
+                break;
+            }
+            if (repo != it->repo) {
+                err.errNo = EXIT_FAILURE;
+                err.error = "there is no snapshot " + snapshotID + " at location " + repo;
+                return err;
+            } else {
+                break;
+            }
+        }
+    }
+    if (it == allSnaps.end()) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "snapshotID " + snapshotID + " not exist";
+        return err;
+    }
+    if (!CheckDirExists(repo)) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "repo " + repo + " not exist";
+    }
     return err;
 }
 
