@@ -125,3 +125,8 @@ Error ResticTool::removeSnapshots(const string& repo, const string& snapshots) {
     }   
     return err;
 }
+
+Error ResticTool::checkSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes) {
+    return errRestic;
+}
+
