@@ -597,6 +597,26 @@ void cmdListDirInSnap() {
 	
 }
 
+void showDirs(int in) {
+	vector<string> cannotExcludes;
+	vector<string> defaultExcludes;
+	Error err = PreBackup(cannotExcludes, defaultExcludes, Full);
+    if (err.errNo != 0) {
+        cerr << "PreBackup error: " << err.error << endl;
+        exit(err.errNo);
+    }
+	if (in) {
+		for (auto dir : defaultExcludes) {
+		cout << " " << dir;
+		}
+	} else {
+		for (auto dir : cannotExcludes) {
+			cout << " " << dir;
+		}
+	}
+	cout << endl;
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
@@ -606,7 +626,7 @@ int main(int argc, char** argv) {
 	Cmd("list", cmdListSnaps, helpListAllSnaps),
 	Cmd("logs", cmdShowLogs, helpShowLogs),
 	// 打印指定快照下备份的目录和忽略的目录
-    	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)
+    	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)，
 	}	
   	  return 0;
 }
