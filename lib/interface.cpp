@@ -543,4 +543,9 @@ bool CheckDirExists(const string& directory) {
     return exist;
 }
 
+Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<string>& excludes) {
+    Error err;
+    return err;
+}
+
 }
