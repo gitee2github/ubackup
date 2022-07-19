@@ -226,6 +226,26 @@ helpRestoreGrub()
 	 << endl;
 }
 
+
+void
+help(const list<Cmd>& cmds)
+{
+    getopts.parse("help", GetOpts::no_options);
+    if (getopts.hasArgs())
+    {
+	cerr << "Command 'help' does not take arguments." << endl;
+	exit(EXIT_FAILURE);
+    }
+
+    cout << "usage: ubakcup <command> [subcommand] [--command-options] [command-arguments]" << '\n'
+	 << endl;
+
+	cout << GlobalOptions::help_text() << endl;
+	for (list<Cmd>::const_iterator cmd = cmds.begin(); cmd != cmds.end(); ++cmd)
+		(*cmd->help_func)();
+    exit(EXIT_SUCCESS);
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
