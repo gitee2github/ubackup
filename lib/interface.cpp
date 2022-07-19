@@ -183,4 +183,17 @@ Error restore(const string& repo, vector<string>& excludes, const string& snapsh
     return err;
 }
 
+Error removeSnapshot(const string& repo, const string& snapshotID) {
+    Error err;
+    if (access(RESTICBIN, X_OK) != 0) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "restic not exists";
+        return err;
+    }
+    BackupTool bt(BackupTool::createRestic());
+    setenv("RESTIC_PASSWORD", c.GetResticPasswd().c_str(),0);
+    err = bt.removeSnapshots(repo, snapshotID);
+    return err;
+}
+
 }
