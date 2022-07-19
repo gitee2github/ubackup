@@ -26,3 +26,19 @@
 #include <boost/filesystem.hpp>
 #include <ctime>
 #include <map>
+
+namespace ubackup{
+
+const string configPath = "/etc/ubackup/ubackup.json";
+Config c(configPath);
+	
+
+
+
+
+
+
+
+
+
+}
