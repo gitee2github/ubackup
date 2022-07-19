@@ -406,6 +406,22 @@ void cmdBackupFull() {
 	exit(EXIT_SUCCESS);
 }
 
+void toGrubRestore(string& repopath, const string& snapshotID, const vector<string> excludes) {
+	Error err = CheckRestoreInfo(repopath, snapshotID, excludes);
+	if (err.errNo) {
+		cout << err.error << endl;
+		exit(err.errNo);
+	}
+	SystemCmd cmd("source /etc/ubackup/profile.d/ubackuplib.sh;update_change_grub2_entry " + snapshotID);
+	if (cmd.retcode()) {
+		for (const string& line : cmd.stderr()) {
+			cerr << line << endl;
+		}
+		exit(EXIT_FAILURE);
+	}
+	SystemCmd rebootCmd("reboot");
+	exit(EXIT_SUCCESS);
+}
 
 void cmdRestoreSys() {
 	const struct option options[] = {
