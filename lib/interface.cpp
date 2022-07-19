@@ -604,7 +604,8 @@ void string2time(time_t& time, const string& des) {
 }
 
 void backupType2string(const backupType& type, string& des) {
-    return;
+    map<backupType, string> m = { {Full, "full"}, {System, "sys"}, {Data, "data"} };
+    des = m.find(type)->second;
 }
 
 }
