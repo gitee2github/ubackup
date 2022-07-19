@@ -172,6 +172,9 @@ Error RemoveSnapshots(const vector<string>& snapshotID);
  * */
 Error CheckSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes);
 
+// 逐行读取、解析日志文件，展示
+Error ShowLogs(vector<Log>& logs);
+
 
 }
 #endif /* __UBACKUP_H */
