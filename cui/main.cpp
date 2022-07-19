@@ -66,7 +66,14 @@ GetOpts getopts;
 void
 helpBackupFull()
 {
-    return;
+    cout << "  backup full:" << '\n'
+	 << "\tback up full system." << '\n'
+	 << '\n'
+	 << "    Options for 'backup full' command:" << '\n'
+	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
+     	 << "\t-e, --exclude <pattern>\t\texclude a pattern." << '\n'
+	 << "\t-m, --comment <comments>\t\tcomment to this backup." << '\n'
+	 << endl;
 }
 
 void
