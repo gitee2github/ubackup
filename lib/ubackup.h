@@ -175,6 +175,9 @@ Error CheckSpace(const string& repo, const vector<string>& includes, const vecto
 // 逐行读取、解析日志文件，展示
 Error ShowLogs(vector<Log>& logs);
 
+// CheckDirExists： 检查目录是否存在
+Error CheckDirsExists(const vector<string>& directory);
+
 
 }
 #endif /* __UBACKUP_H */
