@@ -198,6 +198,48 @@ Error removeSnapshot(const string& repo, const string& snapshotID) {
 
 Error BackupFull(vector<string>& excludes, string& snapshotID, string repo, string comment) {
     Error err;
+    vector<string> includes;
+    vector<string> allExcludes = c.GetExcludes();
+    if (repo == "") {
+        repo = c.GetLastBackupPath();
+    }
+    //检查输入参数repo和excludes，excludes不能排除项检查
+    if (!CheckDirExists(repo)) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "repo " + repo + " not exists";
+        return err;
+    }
+    if (!excludes.empty()) {
+        err = CheckDirsExists(excludes);
+        if (err.errNo) {
+            return err;
+        }
+        err = cannotExclude(c, excludes);
+        if (err.errNo) {
+            return err;
+        }
+        vector<string> defaultExclude = c.GetExcludes();
+        for (auto it = defaultExclude.begin(); it != defaultExclude.end(); it++) {
+            cout << *it << endl;
+        }
+        allExcludes.insert(allExcludes.end(), excludes.begin(), excludes.end());
+    }
+    // 检查repo空间是否足够，不足则报错
+    err = CheckSpace(repo, includes, excludes);
+    if (err.errNo != 0) {
+        return err;
+    }
+    err = backup(repo, includes, allExcludes, snapshotID, Full);
+    // 记录log
+    string logFile = c.GetLogFile();
+    Log log = setLog(repo, snapshotID, FullBackup, !err.errNo, comment);
+    addLogs(logFile, log);
+    if (!err.errNo) {
+        // repo和snap写入对应info文件
+        string snapInfoFile = c.GetSnapInfoPath();
+        Snapshot snap = setSnap(repo, snapshotID, Full);
+        saveSnapshotInfo(snapInfoFile, snap);
+    }
     return err;
 }
 
