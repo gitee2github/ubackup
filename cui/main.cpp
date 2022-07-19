@@ -46,7 +46,58 @@ struct Cmd
     const help_func_t help_func;
 };
 
-int main(int argc, char** argv) {s
-    return 0;
+GetOpts getopts;
+
+/**
+ * ubackup backup full -r repopath --exclude dir1 dir2 ...
+ * ubackup backup system -r repopath
+ * ubackup backup data -r repopath --include dir1 dir2 ...
+ * ubackup restore sys -n snapshotID
+ * ubackup restore data -n snapshotID [--exclude dir1 dir2 ...]
+ * ubackup restore full -n snapshotID [--exclude dir1 dir2 ...]
+ * ubackup remove -l snapshotID1 snapshotID2 ...
+ * ubackup list [-r repopath] [-t backupType]
+ * ubackup logs
+ * // ubackup ls -n snapshotID
+ * ubackup show-exclude
+ * ubackup show-include
+ * // ubackup restoregrub -r repopath -n snapshotID -t target
+ * */
+void
+helpBackupFull()
+{
+    return;
+}
+
+void
+helpBackupSys()
+{
+    return;
+}
+
+void
+helpBackupData()
+{
+   return;
+}
+
+void
+helpBackup()
+{
+    	helpBackupFull();
+	helpBackupSys();
+	helpBackupData();
+}
+
+void cmdBackupFull() {
+	return;
+}
+
+int main(int argc, char** argv) {
+	
+	const list<Cmd> cmds = {
+	Cmd("backup", cmdBackupFull, helpBackup)
+	}	
+  	  return 0;
 }
 
