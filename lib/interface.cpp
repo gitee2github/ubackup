@@ -609,7 +609,8 @@ void backupType2string(const backupType& type, string& des) {
 }
 
 void string2backupType(const string& src, backupType& type) {
-    return;
+    map<string, backupType> m = { {"full", Full}, {"sys", System}, {"data", Data} };
+    type = m.find(src)->second;
 }
 
 }
