@@ -169,4 +169,18 @@ Error backup(const string& repo, vector<string>& includes, vector<string>& exclu
     return err;
 }
 
+Error restore(const string& repo, vector<string>& excludes, const string& snapshotID, string& target) {
+    Error err;
+    if (access(RESTICBIN, X_OK) != 0) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "restic not exists";
+        return err;
+    }
+    BackupTool bt(BackupTool::createRestic());
+    vector<string> includes;
+    setenv("RESTIC_PASSWORD", c.GetResticPasswd().c_str(),0);
+    err = bt.restore(repo, target, snapshotID, excludes, includes);
+    return err;
+}
+
 }
