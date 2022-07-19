@@ -537,6 +537,9 @@ Error CheckDirsExists(const vector<string>& directory) {
 
 bool CheckDirExists(const string& directory) {
     bool exist= false;
+    ifstream in(directory.c_str());
+    if(in)
+        exist = true;
     return exist;
 }
 
