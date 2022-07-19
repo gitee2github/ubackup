@@ -206,6 +206,15 @@ helpShowExclude()
 	 << endl;
 }
 
+void
+helpShowInclude()
+{
+    cout << "  show-include:" << '\n'
+	 << "\tshows must include directories or files or directories before backup full." << '\n'
+	 << '\n'
+	 << endl;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -630,6 +639,9 @@ void cmdShowExclude() {
 	showDirs(false);
 }
 
+void cmdShowInclude() {
+	showDirs(true);
+}
 
 int main(int argc, char** argv) {
 	
@@ -642,7 +654,9 @@ int main(int argc, char** argv) {
 	// 打印指定快照下备份的目录和忽略的目录
     	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)，
 	// 显示备份时默认忽略的目录
-	Cmd("show-exclude", cmdShowExclude, helpShowExclude)
+	Cmd("show-exclude", cmdShowExclude, helpShowExclude),
+	// 显示整机备份时不能忽略的目录
+	Cmd("show-include", cmdShowInclude, helpShowInclude),
 	}	
   	  return 0;
 }
