@@ -133,7 +133,15 @@ Error ResticTool::checkSpace(const string& repo, const vector<string>& includes,
 Error ResticTool::createSnapID(string& snapshotID) {
     return errRestic;
 }
+
 Error ResticTool::createRepo(const string& repo) {
     Error err;
-    return err;
+    ifstream in(repo.c_str());
+    if(!in) {
+        err.errNo = 1;
+        err.error = "repo " + repo + " not exist";
+    }
+    SystemCmd cmd("restic init -r " + repo);
+    return errRestic;
 }
+
