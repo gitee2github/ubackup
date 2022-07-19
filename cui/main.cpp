@@ -110,6 +110,34 @@ helpBackup()
 }
 
 
+void
+helpRestoreFull()
+{
+    return;
+}
+
+void
+helpRestoreSys()
+{
+    return;
+}
+
+void
+helpRestoreData()
+{
+   return;
+}
+
+void
+helpRestore()
+{
+    	helpRestoreFull();
+	helpRestoreSys();
+	helpRestoreData();
+}
+
+
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -270,10 +298,16 @@ void cmdBackupFull() {
 	exit(EXIT_SUCCESS);
 }
 
+
+void cmdRestoreFull() {
+	return;
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
-	Cmd("backup", cmdBackupFull, helpBackup)
+	Cmd("backup", cmdBackupFull, helpBackup),
+	Cmd("restore", cmdRestoreFull, helpRestore)
 	}	
   	  return 0;
 }
