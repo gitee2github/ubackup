@@ -186,6 +186,17 @@ helpShowLogs()
 	 << endl;
 }
 
+void
+helpListDirInSnap()
+{
+    cout << "  ls:" << '\n'
+	 << "\tlists files and directories in a snapshot." << '\n'
+	 << '\n'
+	 << "    Options for 'ls' command:" << '\n'
+     << "\t-n, <snapshotID>\t\tlists files and directories in a snapshot." << '\n'
+	 << endl;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -582,6 +593,10 @@ void cmdShowLogs() {
 	} 
 }
 
+void cmdListDirInSnap() {
+	
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
@@ -589,7 +604,9 @@ int main(int argc, char** argv) {
 	Cmd("restore", cmdRestoreFull, helpRestore),
 	Cmd("remove", cmdRemove, helpRemove),
 	Cmd("list", cmdListSnaps, helpListAllSnaps),
-	Cmd("logs", cmdShowLogs, helpShowLogs)
+	Cmd("logs", cmdShowLogs, helpShowLogs),
+	// 打印指定快照下备份的目录和忽略的目录
+    	Cmd("ls", cmdListDirInSnap, helpListDirInSnap)
 	}	
   	  return 0;
 }
