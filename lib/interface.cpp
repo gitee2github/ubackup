@@ -352,6 +352,18 @@ Error RestoreData(const string& snapshotID, vector<string>& excludes, string rep
 
 Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type) {
     Error err;
+    vector<Snapshot> all;
+    err = ListAllSnaps(all);
+    if (err.errNo) {
+        return err;
+    }
+    for (auto snap : all) {
+        if (snap.type == type) {
+            if (repo == "" || snap.repo == repo) {
+                snapshots.push_back(snap);
+            }
+        }
+    }
     return err;
 }
 
