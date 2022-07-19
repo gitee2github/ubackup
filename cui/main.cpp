@@ -606,7 +606,7 @@ int main(int argc, char** argv) {
 	Cmd("list", cmdListSnaps, helpListAllSnaps),
 	Cmd("logs", cmdShowLogs, helpShowLogs),
 	// 打印指定快照下备份的目录和忽略的目录
-    	Cmd("ls", cmdListDirInSnap, helpListDirInSnap)
+    	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)
 	}	
   	  return 0;
 }
