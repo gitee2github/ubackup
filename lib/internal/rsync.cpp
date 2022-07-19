@@ -32,4 +32,20 @@ Error RsyncTool::listSnaps(const string& repo, vector<Snapshot>& snapshots) {
     return err;
 }
 
+Error RsyncTool::removeSnapshots(const string& repo, const string& snapshots) {
+    return err;
+}
 
+Error RsyncTool::checkSpace(const string& repo, const vector<string>& includes, const vector<string>& excludes) {
+    return err;
+}
+
+Error RsyncTool::createSnapID(string& snapshotID) {
+    return err;
+}
+
+BackupTool
+BackupTool::createRsync()
+{
+    return BackupTool(new RsyncTool());
+}
