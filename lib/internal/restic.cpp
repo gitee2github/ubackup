@@ -102,3 +102,6 @@ Error ResticTool::restore(const string& repo, const string& target, const string
     }
     return err;
 }
+Error ResticTool::listSnaps(const string& repo, vector<Snapshot>& snapshots) {
+    return errRestic;
+}
