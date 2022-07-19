@@ -184,5 +184,7 @@ Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<stri
 
 void time2string(const time_t time, string& des);
 
+void string2time(time_t& time, const string& des);
+
 }
 #endif /* __UBACKUP_H */
