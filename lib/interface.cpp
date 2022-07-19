@@ -31,7 +31,7 @@ namespace ubackup{
 
 const string configPath = "/etc/ubackup/ubackup.json";
 Config c(configPath);
-	
+
 Error cannotExclude(Config c, vector<string> excludes) {
     Error err;
     for (auto dir : c.GetCannotExcludes())
@@ -619,7 +619,8 @@ void operationType2string(const operationType& type, string& des) {
 }
 
 void string2operationType(const string& src, operationType& type) {
-    return;
+    map<string, operationType> m = { {"full backup", FullBackup}, {"system backup", SystemBackup}, {"data backup", DataBackup}, {"full restore", FullRestore}, {"system restore", SystemRestore}, {"data restore", DataRestore}, {"remove", RemoveSnaps} };
+    type = m.find(src)->second;
 }
 
 }
