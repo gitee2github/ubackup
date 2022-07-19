@@ -22,7 +22,29 @@
 #include <list>
 #include <algorithm>
 
+using namespace std;
+using namespace ubackup;
+const string VERSION = "1.0";
+struct Cmd
+{
+    typedef void (*cmd_func_t)();
 
+    typedef void (*help_func_t)();
+
+    Cmd(const string& name, cmd_func_t cmd_func, help_func_t help_func)
+	: name(name), aliases(), cmd_func(cmd_func), help_func(help_func)
+    {}
+
+    Cmd(const string& name, const vector<string>& aliases, cmd_func_t cmd_func,
+	help_func_t help_func)
+	: name(name), aliases(aliases), cmd_func(cmd_func), help_func(help_func)
+    {}
+
+    const string name;
+    const vector<string> aliases;
+    const cmd_func_t cmd_func;
+    const help_func_t help_func;
+};
 
 int main(int argc, char** argv) {s
     return 0;
