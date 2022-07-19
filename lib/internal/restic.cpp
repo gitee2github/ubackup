@@ -73,3 +73,8 @@ Error ResticTool::backup(const string& repo, vector<string>& includes, vector<st
     }
     return err;
 }
+
+Error ResticTool::restore(const string& repo, const string& target, const string& snapshotID, vector<string>& excludes, vector<string>& includes) {
+   Error err;
+   return err;
+}
