@@ -669,7 +669,7 @@ int main(int argc, char** argv) {
 	// 显示整机备份时不能忽略的目录
 	Cmd("show-include", cmdShowInclude, helpShowInclude),
 	// 供grub恢复系统
-	Cmd("restoregrub", cmdRestoreGrub, helpRestoreGrub)
+	// Cmd("restoregrub", cmdRestoreGrub, helpRestoreGrub)
 	}	
   	  return 0;
 }
