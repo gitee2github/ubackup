@@ -333,4 +333,9 @@ Error RestoreSys(const string& snapshotID, string repo, string target) {
     return RestoreFull(snapshotID, excludes, repo, target);
 }
 
+Error RestoreFull(const string& snapshotID, vector<string>& excludes, string repo, string target) {
+    Error err;
+    return err;
+}
+
 }
