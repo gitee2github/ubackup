@@ -215,6 +215,17 @@ helpShowInclude()
 	 << endl;
 }
 
+void
+helpRestoreGrub()
+{
+    cout << "  restoregrub:" << '\n'
+	 << "\trestore in grub." << '\n'
+	 << '\n'
+	 << "    Options for 'restoregrub' command:" << '\n'
+     << "\t-n, <snapshotID>\t\tsnapshot to be restore." << '\n'
+	 << endl;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -657,6 +668,8 @@ int main(int argc, char** argv) {
 	Cmd("show-exclude", cmdShowExclude, helpShowExclude),
 	// 显示整机备份时不能忽略的目录
 	Cmd("show-include", cmdShowInclude, helpShowInclude),
+	// 供grub恢复系统
+	Cmd("restoregrub", cmdRestoreGrub, helpRestoreGrub)
 	}	
   	  return 0;
 }
