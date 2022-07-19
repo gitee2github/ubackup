@@ -197,6 +197,15 @@ helpListDirInSnap()
 	 << endl;
 }
 
+void
+helpShowExclude()
+{
+    cout << "  show-exclude:" << '\n'
+	 << "\tshows default exclude files or directories." << '\n'
+	 << '\n'
+	 << endl;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -617,6 +626,11 @@ void showDirs(int in) {
 	cout << endl;
 }
 
+void cmdShowExclude() {
+	showDirs(false);
+}
+
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
@@ -627,6 +641,8 @@ int main(int argc, char** argv) {
 	Cmd("logs", cmdShowLogs, helpShowLogs),
 	// 打印指定快照下备份的目录和忽略的目录
     	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)，
+	// 显示备份时默认忽略的目录
+	Cmd("show-exclude", cmdShowExclude, helpShowExclude)
 	}	
   	  return 0;
 }
