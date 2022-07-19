@@ -113,7 +113,13 @@ helpBackup()
 void
 helpRestoreFull()
 {
-    return;
+    cout << "  restore full <-n snapshotID> :" << '\n'
+	 << "\trestore full system from a snapshot." << '\n'
+	 << '\n'
+	 << "    Options for 'restore full' command:" << '\n'
+	 << "\t-r, --repo <repopath>\t\trepository to backup to or restore from." << '\n'
+     	 << "\t-n, <snapshotID>\t\trestore full disk from a snapshot." << '\n'
+	 << endl;
 }
 
 void
