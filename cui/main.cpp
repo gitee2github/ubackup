@@ -165,6 +165,12 @@ helpRemove()
 	 << endl;
 }
 
+void
+helpListAllSnaps()
+{
+	return;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -501,12 +507,17 @@ void cmdRemove() {
 	}
 }
 
+void cmdListSnaps() {
+	return;
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
 	Cmd("backup", cmdBackupFull, helpBackup),
 	Cmd("restore", cmdRestoreFull, helpRestore),
-	Cmd("remove", cmdRemove, helpRemove)
+	Cmd("remove", cmdRemove, helpRemove),
+	Cmd("list", cmdListSnaps, helpListAllSnaps)
 	}	
   	  return 0;
 }
