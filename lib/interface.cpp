@@ -583,7 +583,10 @@ Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<stri
 }
 
 void time2string(const time_t time, string& des) {
-    return;
+    std::tm * ptm = std::localtime(&time);
+    char buffer[32];
+    std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", ptm);
+    des=buffer;
 }
 
 }
