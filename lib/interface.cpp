@@ -400,6 +400,41 @@ Error ListAllSnaps(vector<Snapshot>& snapshots) {
 
 Error RemoveSnapshots(const vector<string>& snapshotID) {
     Error err;
+    string snapInfoPath = c.GetSnapInfoPath();
+    vector<Snapshot> allSnaps;
+    string repo;
+    ListAllSnaps(allSnaps);
+    for (auto deleteSnap : snapshotID) {
+        auto it = allSnaps.begin();
+        for (;it != allSnaps.end(); it++) {
+            if (deleteSnap == it->snapshotID) {
+                repo = it->repo;
+                break;
+            }
+        }
+        if (it == allSnaps.end()) {
+            err.errNo = 1;
+            err.error = "snapshotID " + deleteSnap + " not exists";
+            return err;
+        }
+        err = removeSnapshot(repo, deleteSnap);
+        if (!err.errNo) {
+            // 移除snapInfo
+            removeSnapshotInfo(snapInfoPath, deleteSnap);
+            // // 移除repo信息(如果需要)
+            // removeRepoInfo(repo);
+        }
+        // 记录log
+        string logFile = c.GetLogFile();
+        Log log = {};
+        log.operationTime = time(0);
+        log.opType = RemoveSnaps;
+        log.repo = repo;
+        log.status = !err.errNo;
+        log.snaps.push_back(deleteSnap);
+        addLogs(logFile, log);
+    }
+
     return err;
 }
 
