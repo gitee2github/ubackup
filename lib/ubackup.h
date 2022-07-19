@@ -133,5 +133,13 @@ Error RestoreSys(const string& snapshotID, string repo = "", string target = "/"
  * */
 Error RestoreFull(const string& snapshotID, vector<string>& excludes, string repo = "", string target = "/");
 
+// 整机还原、数据还原用户可以输入需忽略的还原目录
+/**
+ * Restore: 整机还原，选择一个备份ID进行还原。
+ * excludes： 用户输入的需忽略的还原目录
+ * snapshotID： 备份ID
+ * */
+Error RestoreData(const string& snapshotID, vector<string>& excludes, string repo = "");
+
 }
 #endif /* __UBACKUP_H */
