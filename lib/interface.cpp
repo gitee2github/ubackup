@@ -196,4 +196,9 @@ Error removeSnapshot(const string& repo, const string& snapshotID) {
     return err;
 }
 
+Error BackupFull(vector<string>& excludes, string& snapshotID, string repo, string comment) {
+    Error err;
+    return err;
+}
+
 }

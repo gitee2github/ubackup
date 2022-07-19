@@ -79,5 +79,15 @@ struct Log {
     string comment;
 };
 
+/**
+ * BackupFull: 整机备份，忽略临时目录和用户手动排除的目录。
+ * repo: 备份存储的位置
+ * excludes: 用户手动输入的排除目录，函数内部校验，部分目录不能排除
+ * snapshotID: 输出参数，备份完成后返回的备份ID
+ * comment： 对本次备份的备注
+ * 
+ * */
+Error BackupFull(vector<string>& excludes, string& snapshotID, string repo="", string comment="");
+
 }
 #endif /* __UBACKUP_H */
