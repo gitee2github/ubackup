@@ -58,6 +58,8 @@
 	const vector<string>& stderr() const { return Lines_aC[IDX_STDERR]; }
 
 	string cmd() const { return lastCmd; }
+	int retcode() const { return Ret_i; }
+
     protected:
 
 	unsigned numLines(bool Selected_bv = false, OutputStream Idx_ii = IDX_STDOUT) const;
