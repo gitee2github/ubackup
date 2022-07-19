@@ -177,6 +177,15 @@ helpListAllSnaps()
 	 << endl;
 }
 
+void
+helpShowLogs()
+{
+    cout << "  logs:" << '\n'
+	 << "\tshow option logs." << '\n'
+	 << '\n'
+	 << endl;
+}
+
 void cmdBackupSys() {
 	const struct option options[] = {
 	{ "repopath",		required_argument,	0,	'r' },
@@ -554,13 +563,18 @@ void cmdListSnaps() {
 	}
 }
 
+void cmdShowLogs() {
+	return;
+}
+
 int main(int argc, char** argv) {
 	
 	const list<Cmd> cmds = {
 	Cmd("backup", cmdBackupFull, helpBackup),
 	Cmd("restore", cmdRestoreFull, helpRestore),
 	Cmd("remove", cmdRemove, helpRemove),
-	Cmd("list", cmdListSnaps, helpListAllSnaps)
+	Cmd("list", cmdListSnaps, helpListAllSnaps),
+	Cmd("logs", cmdShowLogs, helpShowLogs)
 	}	
   	  return 0;
 }
