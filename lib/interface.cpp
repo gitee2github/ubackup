@@ -487,5 +487,9 @@ Error CheckSpace(const string& repo, const vector<string>& includes, const vecto
     return err;
 }
 
+Error ShowLogs(vector<Log>& logs) {
+    Error err;
+    return err;
+}
 
 }
