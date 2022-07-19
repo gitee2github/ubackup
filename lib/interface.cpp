@@ -277,4 +277,9 @@ Error BackupSys(vector<string>& includes, string& snapshotID, string repo, strin
     }
 }
 
+Error BackupData(vector<string>& includes, vector<string>& excludes, string& snapshotID, string repo, string comment) {
+    Error err;
+    return err;
+}
+
 }
