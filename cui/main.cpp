@@ -317,6 +317,33 @@ void cmdBackupFull() {
 }
 
 
+void cmdRestoreSys() {
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "snapshot",		required_argument,	0,	'n' },
+	{ "noreboot",			no_argument,	0,	0 },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("restore system", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "restore type should in full, system, data, grub." << endl;
+		exit(EXIT_FAILURE);
+    }
+	string snapshotID;
+	string repopath;
+	vector<string> excludes;
+	restoreParse(opts, snapshotID, repopath, excludes);
+	Error err = RestoreSys(snapshotID, repopath);
+	if (err.errNo != 0) {
+		cerr << "Command 'restore system' failed, error: " << err.error << endl;
+		exit(EXIT_FAILURE);
+	} else {
+		cout << "restore successful." << endl;
+	}
+	exit(EXIT_SUCCESS);
+}
+
+
 void cmdRestoreFull() {
 	return;
 }
