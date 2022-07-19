@@ -106,6 +106,22 @@ Error ResticTool::listSnaps(const string& repo, vector<Snapshot>& snapshots) {
     return errRestic;
 }
 Error ResticTool::removeSnapshots(const string& repo, const string& snapshots) {
-   Error err;
-   return err;
+    Error err;
+    SystemCmd unlockCmd("restic unlock -r " + repo);
+    string resticCmd = "restic ";
+    string subCommand = "forget ";
+    subCommand += snapshots;
+    string options;
+    options = options + " -r " + repo;
+    resticCmd = resticCmd + subCommand + options;
+    cout << resticCmd << endl;
+    SystemCmd cmd(resticCmd);
+
+    if (cmd.retcode() != 0) {
+        for (const string& line : cmd.stderr())
+	        cerr << line << endl;
+        err.errNo = cmd.retcode();
+        err.error = "forget failed";
+    }   
+    return err;
 }
