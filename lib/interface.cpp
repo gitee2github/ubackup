@@ -369,6 +369,32 @@ Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type
 
 Error ListAllSnaps(vector<Snapshot>& snapshots) {
     Error err;
+    string snapPath = c.GetSnapInfoPath();
+    if (!CheckDirExists(snapPath)) {
+        err.errNo = 1;
+        err.error = "snap info file " + snapPath + " not exists";
+        return err;
+    }
+    if (boost::filesystem::is_empty(snapPath)) {
+        return err;
+    }
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json<boost::property_tree::ptree>(snapPath, root);
+    if (root.count("snapshot")) {
+        boost::property_tree::ptree ptSnap = root.get_child("snapshot");
+        for (auto pos = ptSnap.begin(); pos != ptSnap.end(); pos++) {
+            string typeStr = pos->second.get<string>("backupType");
+            Snapshot snap;
+            snap.snapshotID = pos->second.get<string>("ID");
+            string2backupType(typeStr, snap.type);
+            string time = pos->second.get<string>("time");
+            string2time(snap.time, time);
+            snap.repo = pos->second.get<string>("repo");
+            snap.repoDevice = pos->second.get<string>("repoDevice");
+            snap.repoMount = pos->second.get<string>("repoMount");
+            snapshots.push_back(snap);
+        }
+    }
     return err;
 }
 
