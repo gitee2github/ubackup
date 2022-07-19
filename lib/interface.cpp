@@ -603,4 +603,8 @@ void string2time(time_t& time, const string& des) {
     time = mktime(&tm_);                       // 将tm结构体转换成time_t格式。
 }
 
+void backupType2string(const backupType& type, string& des) {
+    return;
+}
+
 }
