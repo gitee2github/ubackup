@@ -79,7 +79,13 @@ helpBackupFull()
 void
 helpBackupSys()
 {
-    return;
+    cout << "  backup system:" << '\n'
+	 << "\tback up the necessary files to support the operation of the system." << '\n'
+	 << '\n'
+	 << "   Options for 'backup system' command:" << '\n'
+	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
+	 << "\t-m, --comment <comments>\t\tcomment to this backup." << '\n'
+	 << endl;
 }
 
 void
