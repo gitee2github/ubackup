@@ -211,7 +211,63 @@ void cmdBackupData() {
 
 
 void cmdBackupFull() {
-	return;
+	if (!getopts.hasArgs()) {
+		cerr << "backup type should in full, system, data." << endl;
+		exit(EXIT_FAILURE);
+	}
+	string typeStr = getopts.popArg();
+	if (typeStr == "full") {
+	} else if (typeStr == "system") {
+		cmdBackupSys();
+	} else if (typeStr == "data") {
+		cmdBackupData();
+	} else {
+		cerr << "backup type should in full, system, data." << endl;
+		exit(EXIT_FAILURE);
+	}
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "exclude",		required_argument,	0,	'e' },
+	{ "comment",		required_argument,	0,	'm' },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("backup", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "backup type should in full, system, data." << endl;
+		exit(EXIT_FAILURE);
+    }
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> excludes;
+	if ((opt = opts.find("repopath")) != opts.end()) {
+		repopath = opt->second.front();
+	}
+
+	if ((opt = opts.find("exclude")) != opts.end()) {
+		excludes = opt->second;
+	}
+	string comment;
+	if ((opt = opts.find("comment")) != opts.end()) {
+		comment = opt->second.front();
+	}
+	vector<string> defaultExcludes;
+    vector<string> cannotExcludes;
+    // 检查用户输入的忽略目录是否存在
+    for (auto it = excludes.begin(); it != excludes.end(); it++) {
+        if (!CheckDirExists(*it)) {
+            cerr << "directory " << *it << " not exist" << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+	string snapID;
+	Error err = BackupFull(excludes, snapID, repopath, comment);
+	if (err.errNo != 0) {
+		cerr << "Command 'backup full' failed, error: " << err.error << endl;
+		exit(err.errNo);
+	} else {
+		cout << "backup successful, snapshot: " << snapID << endl;
+	}
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char** argv) {
