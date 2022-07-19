@@ -153,6 +153,15 @@ Error ListSnaps(const string& repo, vector<Snapshot>& snapshots, backupType type
 //  查找出所有备份的snapshot
  Error ListAllSnaps(vector<Snapshot>& snapshots);
 
+// 各类型的备份均使用此方法删除
+/**
+ * RemoveSnapshots: 按备份类型和备份位置删除备份。
+ * repo: 备份存储的位置
+ * snapshotID： 备份ID列表
+ * comment： 本次删除的备注
+ * */
+Error RemoveSnapshots(const vector<string>& snapshotID);
+
 
 }
 #endif /* __UBACKUP_H */

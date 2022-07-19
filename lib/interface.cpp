@@ -398,5 +398,10 @@ Error ListAllSnaps(vector<Snapshot>& snapshots) {
     return err;
 }
 
+Error RemoveSnapshots(const vector<string>& snapshotID) {
+    Error err;
+    return err;
+}
+
 
 }
