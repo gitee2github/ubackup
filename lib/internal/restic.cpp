@@ -145,3 +145,8 @@ Error ResticTool::createRepo(const string& repo) {
     return errRestic;
 }
 
+BackupTool
+BackupTool::createRestic()
+{
+    return BackupTool(new ResticTool());
+}
