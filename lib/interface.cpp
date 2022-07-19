@@ -149,4 +149,24 @@ void removeSnapshotInfo(const string& snapFile, const string& snapshotID) {
     }
 }
 
+Error backup(const string& repo, vector<string>& includes, vector<string>& excludes, string& snapshotID, backupType type) {
+    // 备份前将repo路径添加进excludes
+    excludes.push_back(repo);
+    Error err;
+    if (access(RESTICBIN, X_OK) != 0) {
+        err.errNo = EXIT_FAILURE;
+        err.error = "restic not exists";
+        return err;
+    }
+    BackupTool bt(BackupTool::createRestic());
+    setenv("RESTIC_PASSWORD", c.GetResticPasswd().c_str(),0);
+    string now;
+    time2string(time(0), now);
+    cout << "backup begin " + now << endl;
+    err = bt.backup(repo, includes, excludes, snapshotID);
+    time2string(time(0), now);
+    cout << "backup end " + now << endl;
+    return err;
+}
+
 }
