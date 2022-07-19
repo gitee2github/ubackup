@@ -98,7 +98,41 @@ void addLogs(const string& logFile, const Log& log) {
     boost::property_tree::write_json(logFile, root);
 }
 
-
+void saveSnapshotInfo(const string& snapFile, const Snapshot& snapshot) {
+    map<backupType, string> m = { {Full, "full"}, {System, "sys"}, {Data, "data"} };
+    Error err;
+    boost::property_tree::ptree root;
+    boost::property_tree::ptree pt1;
+    pt1.put("ID", snapshot.snapshotID);
+    string timeStr;
+    time2string(snapshot.time, timeStr);
+    pt1.put("time", timeStr);
+    auto it = m.find(snapshot.type);
+    if (it == m.end()) {
+        cerr << "unknown snapshot type" << endl;
+        return;
+    }
+    pt1.put("backupType", it->second);
+    pt1.put("repo", snapshot.repo);
+    pt1.put("repoDevice", snapshot.repoDevice);
+    pt1.put("repoMount", snapshot.repoMount);
+    if (!CheckDirExists(snapFile) || boost::filesystem::is_empty(snapFile)) {
+        if (!createFile(snapFile)) {
+            cerr << "Error creating snapshot " << snapFile << endl;
+            return;
+        }
+        SystemCmd cmd("sudo touch " + snapFile + "&& sudo chmod 777 " + snapFile);
+        boost::property_tree::ptree ptSnap;
+        ptSnap.add_child(snapshot.snapshotID, pt1);
+        root.add_child("snapshot", ptSnap);
+    } else {
+        boost::property_tree::read_json<boost::property_tree::ptree>(snapFile, root);
+        if (root.count("snapshot")) {
+            root.get_child("snapshot").add_child(snapshot.snapshotID, pt1);
+        }
+    }
+    boost::property_tree::write_json(snapFile, root);
+}
 
 
 
