@@ -515,4 +515,9 @@ Error ShowLogs(vector<Log>& logs) {
     return err;
 }
 
+Error CheckDirsExists(const vector<string>& directory) {
+    Error err;
+    return err;
+}
+
 }
