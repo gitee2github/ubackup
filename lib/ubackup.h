@@ -180,6 +180,7 @@ Error CheckDirsExists(const vector<string>& directory);
 
 bool CheckDirExists(const string& directory);
 
+Error CheckRestoreInfo(string& repo, const string& snapshotID, const vector<string>& excludes);
 
 }
 #endif /* __UBACKUP_H */
