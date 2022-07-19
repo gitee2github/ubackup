@@ -152,6 +152,64 @@ void cmdBackupSys() {
 }
 
 
+
+void cmdBackupData() {
+	const struct option options[] = {
+	{ "repopath",		required_argument,	0,	'r' },
+	{ "include",		required_argument,	0,	'i' },
+	{ "comment",		required_argument,	0,	'm' },
+	{ 0, 0, 0, 0 }
+    };
+	GetOpts::parsed_opts opts = getopts.parse("backupdata", options);
+	if (getopts.numArgs() != 0) {
+		cerr << "backup type should in full, system, data." << endl;
+		exit(EXIT_FAILURE);
+    }
+	GetOpts::parsed_opts::const_iterator opt;
+	string repopath;
+	vector<string> includes;
+	if ((opt = opts.find("repopath")) != opts.end()) {
+		repopath = opt->second.front();
+	}
+
+	if ((opt = opts.find("include")) != opts.end()) {
+		includes = opt->second;
+	} else {
+		cerr << "Missing command argument --include." << endl;
+		exit(EXIT_FAILURE);
+	}
+	string comment;
+	if ((opt = opts.find("comment")) != opts.end()) {
+		comment = opt->second.front();
+	}
+	vector<string> defaultExcludes;
+    vector<string> null;
+    // 备份前调用PreBackup获取默认忽略的目录，用户输入时对比并报错
+	Error err = PreBackup(null, defaultExcludes, Full);
+    if (err.errNo != 0) {
+        cerr << "PreBackup error: " << err.error << endl;
+        exit(err.errNo);
+    }
+    // 检查用户输入的备份目录是否存在
+    for (auto it = includes.begin(); it != includes.end(); it++) {
+        if (!CheckDirExists(*it)) {
+            cerr << "directory " << *it << " not exist" << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+	string snapID;
+	vector<string> excludes;
+	err = BackupData(includes, excludes, snapID, repopath, comment);
+	if (err.errNo != 0) {
+		cerr << "Command 'backupdata' failed, error: " << err.error << endl;
+		exit(err.errNo);
+	} else {
+		cout << "backup successful, snapshot: " << snapID << endl;
+	}
+	exit(EXIT_SUCCESS);
+}
+
+
 void cmdBackupFull() {
 	return;
 }
