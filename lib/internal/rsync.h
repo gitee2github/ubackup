@@ -16,17 +16,12 @@
  * you may find current contact information at https://www.uniontech.com/.
  */
 
-#ifndef __RESTIC_H
-#define __RESTIC_H
+#ifndef __RSYNC_H
+#define __RSYNC_H
 
 #include "interface_adaptor.h"
-#include <unistd.h>
 
-class ResticTool : public BackupTool::Impl {
-
-public:
-    ResticTool(){};
-    virtual ~ResticTool(){};
+class RsyncTool : public BackupTool::Impl {
 
     virtual Error backup(const string& repo, vector<string>& includes, vector<string>& excludes, string& snapshotID) override;
 
@@ -40,12 +35,7 @@ public:
 
     virtual Error createSnapID(string& snapshotID) override;
 
-    // 备份时检查repo是否存在，不存在则创建；查看snap时若不存在repo，则返回成功，snapshots置空；删除时若不存在repo，报错同不存在快照
-    Error createRepo(const string& repo);
-
-    // 可能需增加一层对错误的处理，restore时对正在使用的文件/已存在的符号链接 还原出错不应按还原失败处理，跳过这些错误
-    Error resticRestore();
-    Error createRepo(string& repo);
+    
 };
 
-#endif /* __RESTIC_H */
+#endif /* __RSYNC_H */
