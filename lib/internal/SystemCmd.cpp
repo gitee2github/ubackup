@@ -39,6 +39,7 @@ using namespace std;
 SystemCmd::SystemCmd(const string& Command_Cv, bool log_output)
 	: Combine_b(false), log_output(log_output)
 {
-
+    init();
+    execute( Command_Cv );
 }
 
