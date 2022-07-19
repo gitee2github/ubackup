@@ -91,7 +91,14 @@ helpBackupSys()
 void
 helpBackupData()
 {
-   return;
+   cout << "  backup data <--include dir1 [dir2 ...]> :" << '\n'
+	 << "\tback up user-specified directories or files." << '\n'
+	 << '\n'
+	 << "    Options for 'backup data' command:" << '\n'
+	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
+     	 << "\t-i, --include <pattern>\t\tinclude a pattern." << '\n'
+	 << "\t-m, --comment <comments>\t\tcomment to this backup." << '\n'
+	 << endl;
 }
 
 void
