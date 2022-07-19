@@ -71,7 +71,7 @@ helpBackupFull()
 	 << '\n'
 	 << "    Options for 'backup full' command:" << '\n'
 	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
-     	 << "\t-e, --exclude <pattern>\t\texclude a pattern." << '\n'
+     << "\t-e, --exclude <pattern>\t\texclude a pattern." << '\n'
 	 << "\t-m, --comment <comments>\t\tcomment to this backup." << '\n'
 	 << endl;
 }
@@ -91,12 +91,12 @@ helpBackupSys()
 void
 helpBackupData()
 {
-   cout << "  backup data <--include dir1 [dir2 ...]> :" << '\n'
+    cout << "  backup data <--include dir1 [dir2 ...]> :" << '\n'
 	 << "\tback up user-specified directories or files." << '\n'
 	 << '\n'
 	 << "    Options for 'backup data' command:" << '\n'
 	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
-     	 << "\t-i, --include <pattern>\t\tinclude a pattern." << '\n'
+     << "\t-i, --include <pattern>\t\tinclude a pattern." << '\n'
 	 << "\t-m, --comment <comments>\t\tcomment to this backup." << '\n'
 	 << endl;
 }
@@ -104,11 +104,10 @@ helpBackupData()
 void
 helpBackup()
 {
-    	helpBackupFull();
+    helpBackupFull();
 	helpBackupSys();
 	helpBackupData();
 }
-
 
 void
 helpRestoreFull()
@@ -118,30 +117,30 @@ helpRestoreFull()
 	 << '\n'
 	 << "    Options for 'restore full' command:" << '\n'
 	 << "\t-r, --repo <repopath>\t\trepository to backup to or restore from." << '\n'
-     	 << "\t-n, <snapshotID>\t\trestore full disk from a snapshot." << '\n'
+     << "\t-n, <snapshotID>\t\trestore full disk from a snapshot." << '\n'
 	 << endl;
 }
 
 void
 helpRestoreSys()
 {
-        cout << "  restore system <-n snapshotID> :" << '\n'
+    cout << "  restore system <-n snapshotID> :" << '\n'
 	 << "\trestore system from a system type snapshot." << '\n'
 	 << '\n'
 	 << "    Options for 'restore system' command:" << '\n'
-     	 << "\t-n, <snapshotID>\t\trestore system from a snapshot." << '\n'
+     << "\t-n, <snapshotID>\t\trestore system from a snapshot." << '\n'
 	 << endl;
 }
 
 void
 helpRestoreData()
 {
-       cout << "  restore data <-n snapshotID> :" << '\n'
+    cout << "  restore data <-n snapshotID> :" << '\n'
 	 << "\trestore user data from a snapshot." << '\n'
 	 << '\n'
 	 << "    Options for 'restore data' command:" << '\n'
 	 << "\t-r, --repo <repopath>\t\trepository to backup to or restore from." << '\n'
-     	 << "\t-n, <snapshotID>\t\trestore the data from a snapshot." << '\n'
+     << "\t-n, <snapshotID>\t\trestore the data from a snapshot." << '\n'
 	 << "\t-e, --exclude <dir1 [dir2 ...]>\t\trestore exclude some directories or files." << '\n'
 	 << endl;
 }
@@ -149,7 +148,7 @@ helpRestoreData()
 void
 helpRestore()
 {
-    	helpRestoreFull();
+    helpRestoreFull();
 	helpRestoreSys();
 	helpRestoreData();
 }
@@ -157,23 +156,24 @@ helpRestore()
 void
 helpRemove()
 {
-	cout << "  remove <-l snapshotID1 [snapshotID2 ...]> :" << '\n'
+    cout << "  remove <-l snapshotID1 [snapshotID2 ...]> :" << '\n'
 	 << "\tremoves snapshots according to a policy." << '\n'
 	 << '\n'
 	 << "    Options for 'remove' command:" << '\n'
-     	 << "\t-l, --list <snapshotID1> [snapshotID2 ...]\t\tremoves snapshots according to a policy." << '\n'     
+     << "\t-l, --list <snapshotID1> [snapshotID2 ...]\t\tremoves snapshots according to a policy." << '\n'     
 	 << endl;
 }
 
 void
 helpListAllSnaps()
 {
-    	cout << "  list:" << '\n'
+    cout << "  list:" << '\n'
 	 << "\tlist objects in the repository based on type." << '\n'
 	 << '\n'
 	 << "    Options for 'list' command:" << '\n'
-     	 << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
-     	 << "\t-t, --type <backupType>\t\tbackup type, such as \"full, system, data\"." << '\n'
+     << "\t-r, --repo <repopath>\t\trepository to backup to." << '\n'
+     << "\t-t, --type <backupType>\t\tbackup type, such as \"full, system, data\"." << '\n'
+     
 	 << endl;
 }
 
@@ -226,7 +226,6 @@ helpRestoreGrub()
 	 << endl;
 }
 
-
 void
 help(const list<Cmd>& cmds)
 {
@@ -245,6 +244,7 @@ help(const list<Cmd>& cmds)
 		(*cmd->help_func)();
     exit(EXIT_SUCCESS);
 }
+
 
 void cmdBackupSys() {
 	const struct option options[] = {
@@ -286,8 +286,6 @@ void cmdBackupSys() {
 		cout << "backup successful, snapshot: " << snapID << endl;
 	}
 }
-
-
 
 void cmdBackupData() {
 	const struct option options[] = {
@@ -344,7 +342,6 @@ void cmdBackupData() {
 	}
 	exit(EXIT_SUCCESS);
 }
-
 
 void cmdBackupFull() {
 	if (!getopts.hasArgs()) {
@@ -509,7 +506,7 @@ void cmdRestoreGrub() {
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);
-}     
+}
 
 void cmdRestoreData() {
 	const struct option options[] = {
@@ -595,12 +592,12 @@ void cmdRemove() {
 	const struct option options[] = {
 		{ "list",		required_argument,	0,	'l' },
 		{ 0, 0, 0, 0 }
-    	};
+    };
 	GetOpts::parsed_opts opts = getopts.parse("remove", options);
 	if (getopts.numArgs() != 0) {
 		cerr << "command 'remove' does not require parameters." << endl;
 		exit(EXIT_FAILURE);
-    	}
+    }
 	GetOpts::parsed_opts::const_iterator opt;
 	string repopath;
 	vector<string> snaps;
@@ -622,12 +619,12 @@ void cmdListSnaps() {
 	{ "repopath",		required_argument,	0,	'r' },
 	{ "type",			required_argument,	0,	't' },
 	{ 0, 0, 0, 0 }
-    	};
+    };
 	GetOpts::parsed_opts opts = getopts.parse("list", options);
 	if (getopts.numArgs() != 0) {
 		cerr << "command 'list' does not require parameters." << endl;
 		exit(EXIT_FAILURE);
-    	}
+    }
 	GetOpts::parsed_opts::const_iterator opt;
 	string repopath;
 	vector<string> excludes;
@@ -674,7 +671,7 @@ void cmdShowLogs() {
 		string status;
 		status = log.status ? "true" : "false";
 		cout << timeStr << " |" << log.snaps.front() << " |" << log.repo << " |" << opTypeStr << " |" << status << " |" << log.comment << endl;
-	} 
+	}
 }
 
 void cmdListDirInSnap() {
@@ -710,22 +707,56 @@ void cmdShowInclude() {
 }
 
 int main(int argc, char** argv) {
-	
-	const list<Cmd> cmds = {
+    const list<Cmd> cmds = {
 	Cmd("backup", cmdBackupFull, helpBackup),
 	Cmd("restore", cmdRestoreFull, helpRestore),
 	Cmd("remove", cmdRemove, helpRemove),
 	Cmd("list", cmdListSnaps, helpListAllSnaps),
-	Cmd("logs", cmdShowLogs, helpShowLogs),
-	// 打印指定快照下备份的目录和忽略的目录
-    	// Cmd("ls", cmdListDirInSnap, helpListDirInSnap)，
-	// 显示备份时默认忽略的目录
+    Cmd("logs", cmdShowLogs, helpShowLogs),
+    // 打印指定快照下备份的目录和忽略的目录
+    // Cmd("ls", cmdListDirInSnap, helpListDirInSnap),
+    // 显示备份时默认忽略的目录
 	Cmd("show-exclude", cmdShowExclude, helpShowExclude),
-	// 显示整机备份时不能忽略的目录
+    // 显示整机备份时不能忽略的目录
 	Cmd("show-include", cmdShowInclude, helpShowInclude),
 	// 供grub恢复系统
 	// Cmd("restoregrub", cmdRestoreGrub, helpRestoreGrub)
-	}	
-  	  return 0;
+    };
+
+    getopts.init(argc, argv);
+
+	GlobalOptions global_options(getopts);
+    if (global_options.has_errors())
+    {
+	cerr << global_options.errors().front() << endl;
+	exit(EXIT_FAILURE);
+    }
+	if (global_options.version())
+    {
+	cout << "ubackup " << VERSION << endl;
+	exit(EXIT_SUCCESS);
+    }
+
+    if (global_options.help() || !getopts.hasArgs()) {
+		help(cmds);
+    }
+    const char* command = getopts.popArg();
+
+    list<Cmd>::const_iterator cmd = cmds.begin();
+    while (cmd != cmds.end() && (cmd->name != command))
+	++cmd;
+
+    if (cmd == cmds.end()) {
+		cerr << "Unknown command " << command << endl
+			<< "Try 'ubackup --help' for more information." << endl;
+		exit(EXIT_FAILURE);
+    }
+	// GlobalOptions cmd_options(getopts);
+	// if (cmd_options.help()) {
+	// 	(*cmd->help_func)();
+	// 	exit(EXIT_SUCCESS);
+    // }
+	(*cmd->cmd_func)();
+    return 0;
 }
 
