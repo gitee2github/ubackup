@@ -489,6 +489,29 @@ Error CheckSpace(const string& repo, const vector<string>& includes, const vecto
 
 Error ShowLogs(vector<Log>& logs) {
     Error err;
+    string logFile = c.GetLogFile();
+    if (!CheckDirExists(logFile)) {
+        return err;
+    }
+    if (boost::filesystem::is_empty(logFile)) {
+        return err;
+    }
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json<boost::property_tree::ptree>(logFile, root);
+    if (root.count("log")) {
+        boost::property_tree::ptree ptSnap = root.get_child("log");
+        for (auto pos = ptSnap.begin(); pos != ptSnap.end(); pos++) {
+            Log log;
+            log.snaps.push_back(pos->second.get<string>("snapID"));
+            string2operationType(pos->second.get<string>("op_type"), log.opType);
+            string time = pos->second.get<string>("time");
+            string2time(log.operationTime, time);
+            log.repo = pos->second.get<string>("repo");
+            log.status = pos->second.get<bool>("status");
+            log.comment = pos->second.get<string>("comment");
+            logs.push_back(log);
+        }
+    }
     return err;
 }
 
