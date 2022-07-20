@@ -360,5 +360,8 @@ SystemCmd::invalidate()
 void
 SystemCmd::checkOutput()
 {
-	return ;
+    if (File_aC[IDX_STDOUT])
+	getUntilEOF(File_aC[IDX_STDOUT], Lines_aC[IDX_STDOUT], NewLineSeen_ab[IDX_STDOUT], false);
+    if (File_aC[IDX_STDERR])
+	getUntilEOF(File_aC[IDX_STDERR], Lines_aC[IDX_STDERR], NewLineSeen_ab[IDX_STDERR], true);
 }
