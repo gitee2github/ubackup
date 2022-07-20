@@ -93,3 +93,36 @@ cat <<EOF
 
 EOF
 }
+
+read_config()
+{
+    config_file=${1}
+    title=""
+    initrd=""
+    options=""
+    linux=""
+    grub_arg=""
+
+    while read -r line
+    do
+        record=$(echo ${line} | cut -f 1 -d ' ')
+        value=$(echo ${line} | cut -s -f2- -d ' ')
+        case "${record}" in
+            "title")
+                title=${value}
+                ;;
+            "initrd")
+                initrd=${value}
+                ;;
+            "linux")
+                linux=${value}
+                ;;
+            "options")
+                options=${value}
+                ;;
+            "grub_arg")
+                grub_arg=${value}
+                ;;
+        esac
+    done < ${config_file}
+}
