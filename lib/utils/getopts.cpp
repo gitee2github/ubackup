@@ -55,5 +55,14 @@ GetOpts::short2long_t
 GetOpts::make_short2long(const struct option* longopts) const
 {
     short2long_t result;
+
+    for (; longopts && longopts->name; ++longopts)
+    {
+	if (!longopts->flag && longopts->val)
+	{
+	    result[longopts->val] = longopts->name;
+	}
+    }
+
     return result;
 }
