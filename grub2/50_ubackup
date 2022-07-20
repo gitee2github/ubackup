@@ -187,3 +187,100 @@ populate_menu()
     done
     printf "$menu"
 }
+
+if [ -z "${GRUB_ENABLE_BLSCFG}" ] && [ -z "$(which new-kernel-pkg 2> /dev/null)" ]; then
+	  GRUB_ENABLE_BLSCFG="true"
+fi
+
+if [ "x${GRUB_ENABLE_BLSCFG}" = "xtrue" ]; then
+  if [ x$dirname = x/ ]; then
+    if [ -z "${prepare_root_cache}" ]; then
+      prepare_grub_to_access_device ${GRUB_DEVICE}
+    fi
+  else
+    if [ -z "${prepare_boot_cache}" ]; then
+      prepare_grub_to_access_device ${GRUB_DEVICE_BOOT}
+    fi
+  fi
+
+  if [ -d /sys/firmware/efi ]; then
+      bootefi_device="`${grub_probe} --target=device /boot/efi/`"
+      prepare_grub_to_access_device_with_variable boot ${bootefi_device}
+  else
+      boot_device="`${grub_probe} --target=device /boot/`"
+      prepare_grub_to_access_device_with_variable boot ${boot_device}
+  fi
+
+  arch="$(uname -m)"
+  if [ "x${arch}" = "xppc64le" ] && [ -d /sys/firmware/opal ]; then
+
+      petitboot_path="/sys/firmware/devicetree/base/ibm,firmware-versions/petitboot"
+
+      if test -e ${petitboot_path}; then
+          read -r -d '' petitboot_version < ${petitboot_path}
+          petitboot_version="$(echo ${petitboot_version//v})"
+          major_version="$(echo ${petitboot_version} | cut -d . -f1)"
+          minor_version="$(echo ${petitboot_version} | cut -d . -f2)"
+
+          if test -z ${petitboot_version} || test ${major_version} -lt 1 || \
+                  test ${major_version} -eq 1 -a ${minor_version} -lt 8; then
+              BLS_POPULATE_MENU="true"
+          fi
+      else
+          BLS_POPULATE_MENU="true"
+      fi
+  fi
+
+  populate_header_warn
+
+  cat << EOF
+# The kernelopts variable should be defined in the grubenv file. But to ensure that menu
+# entries populated from BootLoaderSpec files that use this variable work correctly even
+# without a grubenv file, define a fallback kernelopts variable if this has not been set.
+#
+# The kernelopts variable in the grubenv file can be modified using the grubby tool or by
+# executing the grub2-mkconfig tool. For the latter, the values of the GRUB_CMDLINE_LINUX
+# and GRUB_CMDLINE_LINUX_DEFAULT options from /etc/default/grub file are used to set both
+# the kernelopts variable in the grubenv file and the fallback kernelopts variable.
+if [ -z "\${kernelopts}" ]; then
+  set kernelopts="root=${LINUX_ROOT_DEVICE} ro ${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+fi
+EOF
+
+  update_bls_cmdline
+
+  if [ "x${BLS_POPULATE_MENU}" = "xtrue" ]; then
+      populate_menu
+  else
+      cat << EOF
+
+insmod blscfg
+blscfg
+EOF
+  fi
+
+  if [ "x${GRUB_GRUBENV_UPDATE}" = "xyes" ]; then
+      blsdir="/boot/loader/entries"
+      [ -d "${blsdir}" ] && GRUB_BLS_FS="$(${grub_probe} --target=fs ${blsdir})"
+      if [ "x${GRUB_BLS_FS}" = "xbtrfs" ] || [ "x${GRUB_BLS_FS}" = "xzfs" ]; then
+          blsdir=$(make_system_path_relative_to_its_root "${blsdir}")
+          if [ "x${blsdir}" != "x/loader/entries" ] && [ "x${blsdir}" != "x/boot/loader/entries" ]; then
+              ${grub_editenv} - set blsdir="${blsdir}"
+          fi
+      fi
+
+      if [ -n "${GRUB_EARLY_INITRD_LINUX_CUSTOM}" ]; then
+          ${grub_editenv} - set early_initrd="${GRUB_EARLY_INITRD_LINUX_CUSTOM}"
+      fi
+
+      if [ -n "${GRUB_DEFAULT_DTB}" ]; then
+          ${grub_editenv} - set devicetree="${GRUB_DEFAULT_DTB}"
+      fi
+
+      if [ -n "${GRUB_SAVEDEFAULT}" ]; then
+           ${grub_editenv} - set save_default="${GRUB_SAVEDEFAULT}"
+      fi
+  fi
+
+  exit 0
+fi
