@@ -371,6 +371,49 @@ SystemCmd::checkOutput()
 void
 SystemCmd::getUntilEOF(FILE* File_Cr, vector<string>& Lines_Cr, bool& NewLine_br,
 		       bool Stderr_bv)
+{
+    size_t old_size = Lines_Cr.size();
+    char Buf_ti[BUF_LEN];
+    int Cnt_ii;
+    int Char_ii;
+    string Text_Ci;
+
+    clearerr( File_Cr );
+    Cnt_ii = 0;
+    Char_ii = EOF;
+    while( (Char_ii=fgetc(File_Cr)) != EOF )
     {
-	    return;
+	Buf_ti[Cnt_ii++] = Char_ii;
+	if( Cnt_ii==sizeof(Buf_ti)-1 )
+	{
+	    Buf_ti[Cnt_ii] = 0;
+	    extractNewline( Buf_ti, Cnt_ii, NewLine_br, Text_Ci, Lines_Cr );
+	    Cnt_ii = 0;
+	}
+	Char_ii = EOF;
     }
+    if( Cnt_ii>0 )
+    {
+	Buf_ti[Cnt_ii] = 0;
+	extractNewline( Buf_ti, Cnt_ii, NewLine_br, Text_Ci, Lines_Cr );
+    }
+    if( Text_Ci.length() > 0 )
+    {
+	if( NewLine_br )
+	{
+	    addLine( Text_Ci, Lines_Cr );
+	}
+	else
+	{
+	    Lines_Cr[Lines_Cr.size()-1] += Text_Ci;
+	}
+	NewLine_br = false;
+    }
+    else
+    {
+	NewLine_br = true;
+    }
+    if( old_size != Lines_Cr.size() )
+    {
+    }
+}
