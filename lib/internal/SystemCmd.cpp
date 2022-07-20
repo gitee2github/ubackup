@@ -443,6 +443,16 @@ SystemCmd::extractNewline(const string& Buf_ti, int Cnt_iv, bool& NewLine_br,
 void
 SystemCmd::addLine(const string& Text_Cv, vector<string>& Lines_Cr)
 {
-	return;
+    if (log_output)
+    {
+	if (Lines_Cr.size() < line_limit)
+	{
+	}
+	else
+	{
+	}
+    }
+
+    Lines_Cr.push_back(Text_Cv);
 }
 
