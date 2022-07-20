@@ -246,3 +246,9 @@ SystemCmd::doExecute( const string& Cmd )
 	logOutput();
     return Ret_i;
 }
+
+bool
+SystemCmd::doWait( bool Hang_bv, int& Ret_ir )
+{
+   return 0;
+}
