@@ -1,0 +1,13 @@
+[Unit]
+Description=Backup restore daemon
+DefaultDependencies=no
+ConditionPathExists=/etc/initrd-release
+OnFailure=emergency.target
+OnFailureJobMode=replace-irreversibly
+Requires=initrd-root-fs.target
+After=initrd-root-fs.target
+AllowIsolate=yes
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ubackup_restore
