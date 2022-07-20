@@ -41,6 +41,8 @@ private:
 
     int argc;
     char** argv;
+
+    std::string make_optstring(const struct option* longopts) const;
 };
 
 #endif

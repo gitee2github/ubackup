@@ -30,3 +30,8 @@ void GetOpts::init(int new_argc, char** new_argv)
     argc = new_argc;
     argv = new_argv;
 }
+
+string GetOpts::make_optstring(const struct option* longopts) const {
+    string optstring = "";
+    return optstring;
+}
