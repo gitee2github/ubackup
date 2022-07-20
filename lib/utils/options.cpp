@@ -28,3 +28,10 @@ Options::Options(GetOpts& parser) :
 
 Options::~Options()
 {}
+
+bool Options::has_option(const string option_name) const
+{
+    GetOpts::parsed_opts::const_iterator option = get_option(option_name);
+
+    return option != _options.end();
+}
