@@ -34,6 +34,8 @@ public:
     static std::string help_text();
 
     GlobalOptions(GetOpts& parser);
+
+    virtual std::vector<std::string> errors() const override;
 private:
 
     void parse_options();

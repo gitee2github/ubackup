@@ -27,6 +27,7 @@ const option OPTIONS[3] = {
 { 0, 0, 0, 0 }
 };
 
+
 string GlobalOptions::help_text()
 {
     return string("    Global options:") + '\n'
@@ -58,4 +59,11 @@ GlobalOptions::GlobalOptions(GetOpts& parser) :
 void GlobalOptions::parse_options()
 {
     _options = _parser.parse(OPTIONS);
+}
+
+vector<string> GlobalOptions::errors() const
+{
+    vector<string> detected_errors;
+
+    return detected_errors;
 }
