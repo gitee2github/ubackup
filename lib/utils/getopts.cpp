@@ -66,3 +66,10 @@ GetOpts::make_short2long(const struct option* longopts) const
 
     return result;
 }
+
+GetOpts::parsed_opts
+GetOpts::parse(const char* command, const struct option* longopts)
+{
+    parsed_opts result;
+    return results;
+}
