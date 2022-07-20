@@ -32,4 +32,6 @@ Snapshot setSnap(const string& repo, const string& snapshotID, backupType type);
 
 Log setLog(const string& repo, const string& snapshotID, operationType type, bool status, string comment);
 
+bool createFile(string fileName);
+
 #endif /* __UTIL_H */
