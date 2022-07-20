@@ -31,8 +31,13 @@ public:
     string GetLastBackupPath() {
         return lastBackupPath;
     }
+
+    string GetResticPasswd() {
+        return resticPasswd;
+    }
 private:
     string lastBackupPath;
+    string resticPasswd;
 };
 
 #endif 
