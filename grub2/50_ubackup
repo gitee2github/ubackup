@@ -153,3 +153,18 @@ get_sorted_bls()
 
     echo "${files[@]}"
 }
+
+update_bls_cmdline()
+{
+    local cmdline="root=${LINUX_ROOT_DEVICE} ro ${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+    local -a files=($(get_sorted_bls))
+
+    for bls in "${files[@]}"; do
+        local options="${cmdline}"
+        if [ -z "${bls##*debug*}" ]; then
+            options="${options} ${GRUB_CMDLINE_LINUX_DEBUG}"
+        fi
+        options="$(echo "${options}" | sed -e 's/\//\\\//g')"
+        sed -i -e "s/^options.*/options ${options}/" "${blsdir}/${bls}.conf"
+    done
+}
