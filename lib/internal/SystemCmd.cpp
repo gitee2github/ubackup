@@ -456,3 +456,8 @@ SystemCmd::addLine(const string& Text_Cv, vector<string>& Lines_Cr)
     Lines_Cr.push_back(Text_Cv);
 }
 
+void
+SystemCmd::logOutput() const
+{
+	return ;
+}
