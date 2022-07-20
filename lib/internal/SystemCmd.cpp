@@ -422,5 +422,20 @@ void
 SystemCmd::extractNewline(const string& Buf_ti, int Cnt_iv, bool& NewLine_br,
 			  string& Text_Cr, vector<string>& Lines_Cr)
 {
-	return;
+    string::size_type Idx_ii;
+
+    Text_Cr += Buf_ti;
+    while( (Idx_ii=Text_Cr.find( '\n' )) != string::npos )
+    {
+	if( !NewLine_br )
+	{
+	    Lines_Cr[Lines_Cr.size()-1] += Text_Cr.substr( 0, Idx_ii );
+	}
+	else
+	{
+	    addLine( Text_Cr.substr( 0, Idx_ii ), Lines_Cr );
+	}
+	Text_Cr.erase( 0, Idx_ii+1 );
+	NewLine_br = true;
+    }
 }
