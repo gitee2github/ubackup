@@ -346,3 +346,9 @@ SystemCmd::getLine( unsigned Nr_iv, bool Sel_bv, OutputStream Idx_iv ) const
     return ret;
 }
 
+void
+SystemCmd::invalidate()
+{
+   return; 
+}
+
