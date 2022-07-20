@@ -81,3 +81,11 @@ SystemCmd::executeBackground( const string& Cmd_Cv )
     Background_b = true;
     return doExecute(Cmd_Cv);
 }
+
+int
+SystemCmd::executeRestricted( const string& Command_Cv,
+			      long unsigned MaxTimeSec, long unsigned MaxLineOut,
+			      bool& ExceedTime, bool& ExceedLines )
+{
+   return 0;
+}
