@@ -501,3 +501,10 @@ SystemCmd::make_env() const
 
 	return env;
 }
+
+string
+SystemCmd::quote(const string& str)
+{
+    return "'" + boost::replace_all_copy(str, "'", "'\\''") + "'";
+}
+
