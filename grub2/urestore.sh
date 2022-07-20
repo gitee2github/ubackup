@@ -20,4 +20,14 @@ if [ "X$backupid" = "X" ] ;then
     exit 1
 fi
 . /etc/ubackup/profile.d/ubackuplib.sh
+log_debug '--BEGIN to restore--'
+# this to thread operator this log file ,as so we can use as follwer
+function env_Print() {
+    /usr/sbin/lvdisplay               >> /var/log/ubackup.log
+    /usr/bin/mount                    >> /var/log/ubackup.log
+    /usr/bin/ls  -l /dev/dm-*         >> /var/log/ubackup.log
+    /usr/bin/ls  -l /dev/disk/by-uuid >> /var/log/ubackup.log
+    /usr/bin/ls  -l /dev/disk/by-id/  >> /var/log/ubackup.log
+    /usr/bin/ls  -l /dev/mapper/      >> /var/log/ubackup.log
+}
 
