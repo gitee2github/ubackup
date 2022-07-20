@@ -459,5 +459,25 @@ SystemCmd::addLine(const string& Text_Cv, vector<string>& Lines_Cr)
 void
 SystemCmd::logOutput() const
 {
-	return ;
+    unsigned lines = numLines(false, IDX_STDERR);
+    if (lines <= line_limit)
+    {
+	for (unsigned i = 0; i < lines; ++i){}
+    }
+    else
+    {
+	for (unsigned i = 0; i < line_limit / 2; ++i){}
+	for (unsigned i = lines - line_limit / 2; i < lines; ++i){}
+    }
+
+    lines = numLines(false, IDX_STDOUT);
+    if (lines <= line_limit)
+    {
+	for (unsigned i = 0; i < lines; ++i){}
+    }
+    else
+    {
+	for (unsigned i = 0; i < line_limit / 2; ++i){}
+	for (unsigned i = lines - line_limit / 2; i < lines; ++i){}
+    }
 }
