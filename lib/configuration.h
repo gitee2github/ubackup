@@ -35,9 +35,13 @@ public:
     string GetResticPasswd() {
         return resticPasswd;
     }
+    vector<string> GetIncludes() {
+        return includes;
+    };
 private:
     string lastBackupPath;
     string resticPasswd;
+    vector<string> includes;
 };
 
 #endif 
