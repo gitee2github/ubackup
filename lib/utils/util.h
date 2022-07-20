@@ -28,4 +28,6 @@ void split(const string& s, vector<string>& tokens, const string& delimiters = "
 
 void getRepoInfo(Snapshot& snap);
 
+Snapshot setSnap(const string& repo, const string& snapshotID, backupType type);
+
 #endif /* __UTIL_H */
