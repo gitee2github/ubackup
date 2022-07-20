@@ -365,3 +365,12 @@ SystemCmd::checkOutput()
     if (File_aC[IDX_STDERR])
 	getUntilEOF(File_aC[IDX_STDERR], Lines_aC[IDX_STDERR], NewLineSeen_ab[IDX_STDERR], true);
 }
+
+#define BUF_LEN 256
+
+void
+SystemCmd::getUntilEOF(FILE* File_Cr, vector<string>& Lines_Cr, bool& NewLine_br,
+		       bool Stderr_bv)
+    {
+	    return;
+    }
