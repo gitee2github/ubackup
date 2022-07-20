@@ -43,6 +43,10 @@ private:
     char** argv;
 
     std::string make_optstring(const struct option* longopts) const;
+
+    typedef std::map<int, const char*> short2long_t;
+
+    short2long_t make_short2long(const struct option* longopts) const;
 };
 
 #endif
