@@ -29,7 +29,13 @@ using namespace std;
 
 class GlobalOptions : public Options
 {
+private:
 
+    void parse_options();
+
+    bool _version;
+
+    bool _help;
 };
 
 #endif

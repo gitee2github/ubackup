@@ -26,3 +26,8 @@ const option OPTIONS[3] = {
 { "help",		no_argument,		0,	'h' },
 { 0, 0, 0, 0 }
 };
+
+void GlobalOptions::parse_options()
+{
+    _options = _parser.parse(OPTIONS);
+}
