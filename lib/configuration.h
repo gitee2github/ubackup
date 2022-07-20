@@ -44,12 +44,16 @@ public:
     vector<string> GetExcludes() {
         return excludes;
     };
+    string GetLogFile() {
+        return logFile;
+    }
 private:
     string lastBackupPath;
     string resticPasswd;
     vector<string> excludes;
     vector<string> includes;
     vector<string> cannotExcludes;
+    string logFile;
 };
 
 #endif 
