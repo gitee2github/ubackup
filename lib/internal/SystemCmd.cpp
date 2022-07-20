@@ -135,3 +135,12 @@ SystemCmd::executeRestricted( const string& Command_Cv,
 	Ret_i = ret;
     return ret;
 }
+
+#define PRIMARY_SHELL "/bin/sh"
+#define ALTERNATE_SHELL "/bin/bash"
+
+int
+SystemCmd::doExecute( const string& Cmd )
+{
+     return 0;
+}
