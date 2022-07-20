@@ -36,6 +36,11 @@ public:
     GlobalOptions(GetOpts& parser);
 
     virtual std::vector<std::string> errors() const override;
+
+    bool version() const
+    {
+    return _version;
+    }
 private:
 
     void parse_options();
