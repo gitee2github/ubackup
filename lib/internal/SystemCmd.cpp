@@ -320,3 +320,11 @@ SystemCmd::numLines( bool Sel_bv, OutputStream Idx_iv ) const
     }
     return Ret_ii;
 }
+
+string
+SystemCmd::getLine( unsigned Nr_iv, bool Sel_bv, OutputStream Idx_iv ) const
+{
+	string ret;
+	return ret;
+}
+
