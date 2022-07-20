@@ -57,4 +57,11 @@ SystemCmd::~SystemCmd()
 	fclose( File_aC[IDX_STDERR] );
 }
 
+void
+SystemCmd::closeOpenFds() const
+{
+	return;
+}
+
+
 
