@@ -49,6 +49,10 @@ public:
 
     const char* popArg() { return argv[optind++]; }
 
+    std::list<std::string> getArgs() const {
+	return std::list<std::string>(&argv[optind], &argv[argc]);
+    }
+
 private:
 
     int argc;
@@ -59,6 +63,7 @@ private:
     typedef std::map<int, const char*> short2long_t;
 
     short2long_t make_short2long(const struct option* longopts) const;
+
 };
 
 #endif
