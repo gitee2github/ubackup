@@ -30,6 +30,8 @@ class Options
 public:
     Options(GetOpts& parser);
     virtual ~Options();
+protected:
+    bool has_option(const std::string option_name) const;
 };
 
 #endif
