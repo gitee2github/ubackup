@@ -32,6 +32,21 @@ void GetOpts::init(int new_argc, char** new_argv)
 }
 
 string GetOpts::make_optstring(const struct option* longopts) const {
-    string optstring = "";
+    // '+' - do not permute, stop at the 1st nonoption, which is the command or an argument
+    // ':' - return ':' to indicate missing arg, not '?'
+    string optstring = "+:";
+
+    for (; longopts && longopts->name; ++longopts)
+    {
+	if (!longopts->flag && longopts->val)
+	{
+	    optstring += (char) longopts->val;
+	    if (longopts->has_arg == required_argument)
+		optstring += ':';
+	    else if (longopts->has_arg == optional_argument)
+		optstring += "::";
+	}
+    }
+
     return optstring;
 }
