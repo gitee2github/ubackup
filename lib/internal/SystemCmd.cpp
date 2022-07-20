@@ -302,3 +302,9 @@ SystemCmd::setTestmode(bool val)
 {
     testmode = val;
 }
+
+unsigned
+SystemCmd::numLines( bool Sel_bv, OutputStream Idx_iv ) const
+{
+	return 0;
+}
