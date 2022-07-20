@@ -50,3 +50,10 @@ string GetOpts::make_optstring(const struct option* longopts) const {
 
     return optstring;
 }
+
+GetOpts::short2long_t
+GetOpts::make_short2long(const struct option* longopts) const
+{
+    short2long_t result;
+    return result;
+}
