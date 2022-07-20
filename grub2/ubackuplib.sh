@@ -34,3 +34,12 @@ function have_lvm() {
     fi
     return $ret
 }
+
+function backup_restore_mount() {
+    mount -o remount,rw /dev/mapper/uos-root
+    mount -n -tproc none /sysroot/proc
+    mount -n -tsysfs none /sysroot/sys
+    mount -n -tdevtmpfs  none /sysroot/dev
+    mount -n -tdevpts  none /sysroot/dev/pts
+    mount -n -ttmpfs none /sysroot/dev/shm
+}
