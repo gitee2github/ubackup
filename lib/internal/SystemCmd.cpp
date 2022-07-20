@@ -417,3 +417,10 @@ SystemCmd::getUntilEOF(FILE* File_Cr, vector<string>& Lines_Cr, bool& NewLine_br
     {
     }
 }
+
+void
+SystemCmd::extractNewline(const string& Buf_ti, int Cnt_iv, bool& NewLine_br,
+			  string& Text_Cr, vector<string>& Lines_Cr)
+{
+	return;
+}
