@@ -78,5 +78,6 @@ SystemCmd::execute(const string& Cmd_Cv)
 int
 SystemCmd::executeBackground( const string& Cmd_Cv )
 {
-  return 0;
+    Background_b = true;
+    return doExecute(Cmd_Cv);
 }
