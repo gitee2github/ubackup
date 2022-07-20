@@ -109,3 +109,13 @@ function umount_point() {
     done
     return 0
 }
+
+function update_grub2_menu() {
+    if [ -d /sys/firmware/efi/ ] ; then 
+        grub2-mkconfig > /boot/efi/EFI/UnionTech/grub.cfg
+        cp -f /boot/efi/EFI/UnionTech/grub.cfg /etc/ubackup/grub2/org.cfg 
+    else
+        grub2-mkconfig > /boot/grub2/grub.cfg
+        cp -f /boot/grub2/grub.cfg /etc/ubackup/grub2/org.cfg
+    fi
+}
