@@ -46,6 +46,15 @@ string GlobalOptions::help_text()
     + "\tshow-include\t\t\tshows must include files or directories before backupfull." + '\n';
 }
 
+GlobalOptions::GlobalOptions(GetOpts& parser) :
+    Options(parser)
+{
+    parse_options();
+
+    _version = has_option("version");
+    _help = has_option("help");
+}
+
 void GlobalOptions::parse_options()
 {
     _options = _parser.parse(OPTIONS);
