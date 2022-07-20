@@ -145,3 +145,12 @@ function grub2_menu_restore() {
         cp -f /etc/ubackup/grub2/org.cfg /boot/grub2/grub.cfg
     fi
 }
+
+#exec restore command in chroot evn 
+function ubackup_restore_fn() {
+    if [ "X$1" = "X" ] ;then
+        return 1
+    fi
+    chroot /sysroot /bin/bash -c "/etc/ubackup/profile.d/urestore.sh $1"
+    return 0
+}
