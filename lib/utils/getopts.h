@@ -47,6 +47,8 @@ public:
         return argc - optind; 
     }
 
+    const char* popArg() { return argv[optind++]; }
+
 private:
 
     int argc;
