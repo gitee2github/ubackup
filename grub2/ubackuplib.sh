@@ -89,3 +89,15 @@ function active_all_logical_volume() {
     /usr/sbin/vgchange -ay $vgname
     return 0
 }
+
+function unactive_all_logical_volume() {
+    have_lvm
+    if [ $? -eq 0 ] ;then 
+        return 1
+    fi
+    for list in `get_unactive_volume_list`
+    do
+        /usr/sbin/lvchange -an $list
+    done
+    return 0
+}
