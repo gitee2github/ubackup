@@ -27,6 +27,11 @@ const option OPTIONS[3] = {
 { 0, 0, 0, 0 }
 };
 
+string GlobalOptions::help_text()
+{
+    return " ";
+}
+
 void GlobalOptions::parse_options()
 {
     _options = _parser.parse(OPTIONS);
