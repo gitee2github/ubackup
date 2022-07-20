@@ -35,3 +35,9 @@ bool Options::has_option(const string option_name) const
 
     return option != _options.end();
 }
+
+GetOpts::parsed_opts::const_iterator
+Options::get_option(const string option_name) const
+{
+    return _options.find(option_name);
+}

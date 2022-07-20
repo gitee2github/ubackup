@@ -32,6 +32,10 @@ public:
     virtual ~Options();
 protected:
     bool has_option(const std::string option_name) const;
+    GetOpts::parsed_opts::const_iterator
+    get_option(const std::string option_name) const;
+    GetOpts& _parser;
+    GetOpts::parsed_opts _options;
 };
 
 #endif
