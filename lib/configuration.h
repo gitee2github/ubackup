@@ -38,10 +38,14 @@ public:
     vector<string> GetIncludes() {
         return includes;
     };
+    vector<string> GetCannotExcludes() {
+        return cannotExcludes;
+    };
 private:
     string lastBackupPath;
     string resticPasswd;
     vector<string> includes;
+    vector<string> cannotExcludes;
 };
 
 #endif 
