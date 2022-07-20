@@ -381,10 +381,10 @@ SystemCmd::getUntilEOF(FILE* File_Cr, vector<string>& Lines_Cr, bool& NewLine_br
     clearerr( File_Cr );
     Cnt_ii = 0;
     Char_ii = EOF;
-    while( (Char_ii=fgetc(File_Cr)) != EOF )
+    while( (Char_ii = fgetc(File_Cr)) != EOF )
     {
 	Buf_ti[Cnt_ii++] = Char_ii;
-	if( Cnt_ii==sizeof(Buf_ti)-1 )
+	if( Cnt_ii == sizeof(Buf_ti)-1 )
 	{
 	    Buf_ti[Cnt_ii] = 0;
 	    extractNewline( Buf_ti, Cnt_ii, NewLine_br, Text_Ci, Lines_Cr );
@@ -425,7 +425,7 @@ SystemCmd::extractNewline(const string& Buf_ti, int Cnt_iv, bool& NewLine_br,
     string::size_type Idx_ii;
 
     Text_Cr += Buf_ti;
-    while( (Idx_ii=Text_Cr.find( '\n' )) != string::npos )
+    while( (Idx_ii = Text_Cr.find( '\n' )) != string::npos )
     {
 	if( !NewLine_br )
 	{
@@ -439,3 +439,10 @@ SystemCmd::extractNewline(const string& Buf_ti, int Cnt_iv, bool& NewLine_br,
 	NewLine_br = true;
     }
 }
+
+void
+SystemCmd::addLine(const string& Text_Cv, vector<string>& Lines_Cr)
+{
+	return;
+}
+
