@@ -41,6 +41,12 @@ public:
     {
     return _version;
     }
+
+    bool help() const
+    {
+    return _help;
+    }
+
 private:
 
     void parse_options();
