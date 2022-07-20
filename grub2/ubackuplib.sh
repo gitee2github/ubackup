@@ -54,3 +54,14 @@ function backup_restore_umount() {
     umount /sysroot/boot
     mount -o remount,ro /dev/mapper/uos-root
 }
+
+function active_unactive_logical_volume() {
+    if [ "X$@" = "X" ] ;then
+        return 1
+    fi
+    for volume in "$@"
+    do
+        /usr/sbin/lvchange -ay $volume
+    done
+    return 0
+}
