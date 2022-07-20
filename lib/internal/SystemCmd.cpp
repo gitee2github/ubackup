@@ -250,5 +250,44 @@ SystemCmd::doExecute( const string& Cmd )
 bool
 SystemCmd::doWait( bool Hang_bv, int& Ret_ir )
 {
-   return 0;
+    int Wait_ii;
+    int Status_ii;
+
+    do
+	{
+	int sel = poll( pfds, Combine_b?1:2, 1000 );
+	if (sel < 0)
+	    {
+	    }
+	if( sel>0 )
+	    {
+	    checkOutput();
+	    }
+	Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
+	}
+    while( Hang_bv && Wait_ii == 0 );
+
+    if( Wait_ii != 0 )
+	{
+	checkOutput();
+	fclose( File_aC[IDX_STDOUT] );
+	File_aC[IDX_STDOUT] = NULL;
+	if( !Combine_b )
+	    {
+	    fclose( File_aC[IDX_STDERR] );
+	    File_aC[IDX_STDERR] = NULL;
+	    }
+	if (WIFEXITED(Status_ii))
+	{
+	    Ret_ir = WEXITSTATUS(Status_ii);
+	    if (Ret_ir == 126) {}
+	    else if (Ret_ir == 127) {}
+	}
+	else
+	{
+	    Ret_ir = -127;
+	}
+	}
+    return Wait_ii != 0;
 }
+
