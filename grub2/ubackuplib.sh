@@ -119,3 +119,21 @@ function update_grub2_menu() {
         cp -f /boot/grub2/grub.cfg /etc/ubackup/grub2/org.cfg
     fi
 }
+
+#this functuon have one param , the parma is backupid
+function update_change_grub2_entry() {
+    backupid="$1"
+    if [ "X$backupid" = "X" ];then
+        return 
+    fi
+    if [ ! -f /etc/ubackup/grub2/grub2_only_one.cfg ] ;then 
+        update_grub2_menu;
+    fi
+    sed -i "s/BACKUPID=.*$/BACKUPID=$backupid/g" /etc/ubackup/grub2/grub2_only_one.cfg
+    if [ -d /sys/firmware/efi/ ] ; then 
+        cp -f /etc/ubackup/grub2/grub2_only_one.cfg /boot/efi/EFI/UnionTech/grub.cfg 
+    else
+        cp -f /etc/ubackup/grub2/grub2_only_one.cfg /boot/grub2/grub.cfg 
+    fi
+    return
+}
