@@ -87,5 +87,51 @@ SystemCmd::executeRestricted( const string& Command_Cv,
 			      long unsigned MaxTimeSec, long unsigned MaxLineOut,
 			      bool& ExceedTime, bool& ExceedLines )
 {
-   return 0;
+    ExceedTime = ExceedLines = false;
+    int ret = executeBackground( Command_Cv );
+    unsigned long ts = 0;
+    unsigned long ls = 0;
+    unsigned long start_time = time(NULL);
+    while( !ExceedTime && !ExceedLines && !doWait( false, ret ) )
+	{
+	if( MaxTimeSec>0 )
+	    {
+	    ts = time(NULL)-start_time;
+	    }
+	if( MaxLineOut>0 )
+	    {
+	    ls = numLines()+numLines(false,IDX_STDERR);
+	    }
+	ExceedTime = MaxTimeSec>0 && ts>MaxTimeSec;
+	ExceedLines = MaxLineOut>0 && ls>MaxLineOut;
+	sleep( 1 );
+	}
+    if( ExceedTime || ExceedLines )
+	{
+	kill( Pid_i, SIGKILL );
+	unsigned count=0;
+	int Status_ii;
+	int Wait_ii = -1;
+	while( count<5 && Wait_ii<=0 )
+	    {
+	    Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
+	    count++;
+	    sleep( 1 );
+	    }
+	/*
+	r = kill( Pid_i, SIGKILL );
+	count=0;
+	waitDone = false;
+	while( count<8 && !waitDone )
+	    {
+	    waitDone = doWait( false, ret );
+	    count++;
+	    sleep( 1 );
+	    }
+	*/
+	Ret_i = -257;
+	}
+    else
+	Ret_i = ret;
+    return ret;
 }
