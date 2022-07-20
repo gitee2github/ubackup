@@ -1,0 +1,36 @@
+#!/bin/bash
+# Copyright (C) 2022 Uniontech Software Technology Co., Ltd.
+#  
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License as published by 
+# the Free Software Foundation.
+#  
+# This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# See the GNU General Public License for more details.
+#  
+# You should have received a copy of the GNU General Public License along with this program; 
+# If not, see <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>.
+# 
+# To contact us about this file by physical or electronic mail, 
+# you may find current contact information at https://www.uniontech.com/.
+ 
+export DRACUT_SYSTEMD=1
+if [ -f /dracut-state.sh ]; then
+    . /dracut-state.sh 2>/dev/null
+fi
+type getarg >/dev/null 2>&1 || . /lib/dracut-lib.sh
+source_conf /etc/conf.d
+backupid=$(getarg BACKUPID=)
+if [ "X$backupid" = "X" ] ;then 
+    exit 0
+fi
+. /etc/ubackup/profile.d/ubackuplib.sh
+backup_restore_mount
+ubackup_restore_fn $backupid
+if [ $? -ne 0 ] ;then
+    backup_restore_umount
+    exit 1
+fi
+backup_restore_umount
+exit 0
