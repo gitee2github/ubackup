@@ -101,3 +101,11 @@ function unactive_all_logical_volume() {
     done
     return 0
 }
+
+function umount_point() {
+    for point in `cat /etc/fstab |grep -vE "^($|#)"|awk '{print $2}'|grep -E -v '^/$|none'`
+    do
+        umount $point >/dev/null 2>&1
+    done
+    return 0
+}
