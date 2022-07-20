@@ -310,3 +310,85 @@ mktitle ()
   esac
   echo -n ${title}
 }
+
+title_correction_code=
+
+linux_entry ()
+{
+  os="$1"
+  version="$2"
+  type="$3"
+  isdebug="$4"
+  args="$5"
+
+  if [ -z "$boot_device_id" ]; then
+      boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
+  fi
+
+  OS_NAME="$(eval $(grep ^NAME= /etc/os-release) ; echo ${NAME})"
+  OS_VERS="$(eval $(grep ^VERSION= /etc/os-release) ; echo ${VERSION%% *})"
+  if [ x$type != xsimple ] ; then
+      title=$(mktitle "$type" "$version")
+      if [ x"$title" = x"$GRUB_ACTUAL_DEFAULT" ] || [ x"Previous Linux versions>$title" = x"$GRUB_ACTUAL_DEFAULT" ]; then
+	  replacement_title="$(echo "Advanced options for $OS_NAME $OS_VERS GNU/Linux" | sed 's,>,>>,g')>$(echo "$title" | sed 's,>,>>,g')"
+	  quoted="$(echo "$GRUB_ACTUAL_DEFAULT" | grub_quote)"
+	  title_correction_code="${title_correction_code}if [ \"x\$default\" = '$quoted' ]; then default='$(echo "$replacement_title" | grub_quote)'; fi;"
+      fi
+      if [ x$isdebug = xdebug ]; then
+	  title="$title${GRUB_LINUX_DEBUG_TITLE_POSTFIX}"
+      fi
+      echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-$version-$type-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+  else
+      echo "menuentry '$(echo $OS_NAME GNU/Linux | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+  fi      
+  if [ x$type != xrecovery ] ; then
+      save_default_entry | grub_add_tab
+  fi
+
+  if [ "x$GRUB_GFXPAYLOAD_LINUX" = x ]; then
+      echo "	load_video" | sed "s/^/$submenu_indentation/"
+      if grep -qx "CONFIG_FB_EFI=y" "${config}" 2> /dev/null \
+	  && grep -qx "CONFIG_VT_HW_CONSOLE_BINDING=y" "${config}" 2> /dev/null; then
+	  echo "	set gfxpayload=keep" | sed "s/^/$submenu_indentation/"
+      fi
+  else
+      if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
+	  echo "	load_video" | sed "s/^/$submenu_indentation/"
+      fi
+      echo "	set gfxpayload=$GRUB_GFXPAYLOAD_LINUX" | sed "s/^/$submenu_indentation/"
+  fi
+
+  echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
+
+  if [ x$dirname = x/ ]; then
+    if [ -z "${prepare_root_cache}" ]; then
+      prepare_root_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE} | grub_add_tab)"
+    fi
+    printf '%s\n' "${prepare_root_cache}" | sed "s/^/$submenu_indentation/"
+  else
+    if [ -z "${prepare_boot_cache}" ]; then
+      prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | grub_add_tab)"
+    fi
+    printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
+  fi
+  sed "s/^/$submenu_indentation/" << EOF
+	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
+EOF
+  if test -n "${initrd}" ; then
+    initrd_path=
+    for i in ${initrd}; do
+      initrd_path="${initrd_path} ${rel_dirname}/${i}"
+    done
+    sed "s/^/$submenu_indentation/" << EOF
+	initrd	$(echo $initrd_path)
+EOF
+  fi
+  if test -n "${fdt}" ; then
+    sed "s/^/$submenu_indentation/" << EOF
+	devicetree	${rel_dirname}/${fdt}
+EOF
+  fi
+  sed "s/^/$submenu_indentation/" << EOF
+}
+EOF
+}
