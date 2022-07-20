@@ -41,3 +41,8 @@ Options::get_option(const string option_name) const
 {
     return _options.find(option_name);
 }
+
+bool Options::has_errors() const
+{
+    return !errors().empty();
+}
