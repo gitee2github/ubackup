@@ -49,3 +49,8 @@ void getRepoInfo(Snapshot& snap) {
     snap.repoDevice = tmp[0];
     snap.repoMount = tmp[5];
 }
+
+Snapshot setSnap(const string& repo, const string& snapshotID, backupType type) {
+    Snapshot snap;
+    return snap;
+}
