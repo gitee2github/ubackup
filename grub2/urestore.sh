@@ -30,4 +30,44 @@ function env_Print() {
     /usr/bin/ls  -l /dev/disk/by-id/  >> /var/log/ubackup.log
     /usr/bin/ls  -l /dev/mapper/      >> /var/log/ubackup.log
 }
+#
+have_lvm
+lvmflg=$?
+if [ $lvmflg -eq 1 ]; then
+    log_debug '--have detect lvm infomation--'
+    list=$(get_unactive_volume_list)
+    active_unactive_logical_volume $list
+    log_debug "--after active_unactive_logical_volume,return value is :$?--"
+    log_debug "--the unactive logical volume is $list--"
+fi
 
+log_debug "--According /etc/fstab to processing mount point begin--"
+/usr/bin/mount -a
+log_debug "--According /etc/fstab to processing mount point end,return value is :$?--"
+
+type=$(/usr/bin/ubackup list |awk -F"|" '{if ($1 ~ "'$backupid'") {print $3}}')
+if [ "X$type" = "X" ];then
+    log_debug "--the backup id is NULL--"
+    umount_point
+    if [ $lvmflg -eq 1 ];then
+        unactive_all_logical_volume $list
+    fi
+    grub2_menu_restore
+    log_debug '--End to restore--'
+    exit 1
+fi
+log_debug "--begin to exec restore command--"
+/usr/bin/ubackup restore $type -n $backupid
+log_debug "--the exe command is: \"/usr/bin/ubackup restore $type -n $backupid\",return value is :$?--"
+log_debug "--end to exec restore command--"
+
+log_debug "--begin to exec umount_point function--"
+umount_point
+log_debug "--end to exec umount_point function,return value is :$?--"
+if [ $lvmflg -eq 1 ];then
+    unactive_all_logical_volume $list
+    log_debug "--after unactive_all_logical_volume,return value is :$?--"
+fi
+grub2_menu_restore
+log_debug '--End to restore--'
+exit 0
