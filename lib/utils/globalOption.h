@@ -32,6 +32,8 @@ class GlobalOptions : public Options
 
 public:
     static std::string help_text();
+
+    GlobalOptions(GetOpts& parser);
 private:
 
     void parse_options();
