@@ -35,7 +35,12 @@ public:
 
     typedef std::map<std::string, std::vector<std::string> > parsed_opts;
 
+    void init(int argc, char** argv);
+
 private:
+
+    int argc;
+    char** argv;
 };
 
 #endif

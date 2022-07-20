@@ -24,3 +24,9 @@ using namespace std;
 const struct option GetOpts::no_options[1] = {
     { 0, 0, 0, 0 }
 };
+
+void GetOpts::init(int new_argc, char** new_argv)
+{
+    argc = new_argc;
+    argv = new_argv;
+}
