@@ -324,7 +324,25 @@ SystemCmd::numLines( bool Sel_bv, OutputStream Idx_iv ) const
 string
 SystemCmd::getLine( unsigned Nr_iv, bool Sel_bv, OutputStream Idx_iv ) const
 {
-	string ret;
-	return ret;
+    string ret;
+
+    if( Idx_iv > 1 )
+    {
+    }
+    if( Sel_bv )
+    {
+	if( Nr_iv < SelLines_aC[Idx_iv].capacity() )
+	{
+	    ret = *SelLines_aC[Idx_iv][Nr_iv];
+	}
+    }
+    else
+    {
+	if( Nr_iv < Lines_aC[Idx_iv].size() )
+	{
+	    ret = Lines_aC[Idx_iv][Nr_iv];
+	}
+    }
+    return ret;
 }
 
