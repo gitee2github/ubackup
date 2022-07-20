@@ -79,3 +79,13 @@ function get_unactive_volume_list() {
     echo $list
     return 
 }
+
+function active_all_logical_volume() {
+    have_lvm
+    if [ $? -eq 0 ] ;then 
+        return 1
+    fi
+    vgname=`vgs|sed '1d'|awk '{print $1}'`
+    /usr/sbin/vgchange -ay $vgname
+    return 0
+}
