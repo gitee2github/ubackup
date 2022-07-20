@@ -38,6 +38,7 @@ public:
     void init(int argc, char** argv);
 
     // longopts.flag must be NULL
+    parsed_opts parse(const struct option* longopts);
     parsed_opts parse(const char* command, const struct option* longopts);
 
 private:
