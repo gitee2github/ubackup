@@ -41,9 +41,13 @@ public:
     vector<string> GetCannotExcludes() {
         return cannotExcludes;
     };
+    vector<string> GetExcludes() {
+        return excludes;
+    };
 private:
     string lastBackupPath;
     string resticPasswd;
+    vector<string> excludes;
     vector<string> includes;
     vector<string> cannotExcludes;
 };
