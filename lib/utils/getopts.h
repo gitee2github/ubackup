@@ -43,6 +43,10 @@ public:
 
     bool hasArgs() const { return argc - optind > 0; }
 
+    int numArgs() const {
+        return argc - optind; 
+    }
+
 private:
 
     int argc;
