@@ -49,3 +49,9 @@ void SystemCmd::init()
     pfds[0].events = pfds[1].events = POLLIN;
 }
 
+SystemCmd::~SystemCmd()
+{
+    return;
+}
+
+
