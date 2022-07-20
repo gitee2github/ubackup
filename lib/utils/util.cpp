@@ -62,5 +62,11 @@ Snapshot setSnap(const string& repo, const string& snapshotID, backupType type) 
 
 Log setLog(const string& repo, const string& snapshotID, operationType type, bool status, string comment) {
     Log log;
+    log.operationTime = time(0);
+    log.opType = type;
+    log.repo = repo;
+    log.snaps.push_back(snapshotID);
+    log.status = status;
+    log.comment = comment;
     return log;
 }
