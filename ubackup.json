@@ -1,0 +1,37 @@
+{
+    "lastBackupPath": "/backup",
+    "resticPasswd": "1",
+    "snapCnt": 50,
+    "excludes": ["/sys",
+        "/dev",
+        "/run",
+        "/proc",
+        "/tmp",
+        "/mnt",
+        "/boot",
+        "/usr"
+    ],
+    "includes": ["/bin",
+        "/usr",
+        "/lib",
+        "/lib32",
+        "/lib64",
+        "/opt",
+        "/etc",
+        "/Desktop",
+        "/var"
+    ],
+    "cannotExcludes": ["/bin",
+        "/usr",
+        "/lib",
+        "/lib32",
+        "/lib64",
+        "/opt",
+        "/etc",
+        "/Desktop",
+        "/var"
+    ],
+    "snapInfoPath": "/etc/ubackup/ubackup_snap.json",
+    "repoInfoPath": "/etc/ubackup/ubackup_repo.json",
+    "logFile": "/etc/ubackup/ubackup.log"
+}
