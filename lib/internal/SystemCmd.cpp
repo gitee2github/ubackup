@@ -60,7 +60,11 @@ SystemCmd::~SystemCmd()
 void
 SystemCmd::closeOpenFds() const
 {
-	return;
+    int max_fd = getdtablesize();
+    for( int fd = 3; fd < max_fd; fd++ )
+    {
+	close(fd);
+    }
 }
 
 
