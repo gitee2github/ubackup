@@ -109,10 +109,10 @@ SystemCmd::executeRestricted( const string& Command_Cv,
     if( ExceedTime || ExceedLines )
 	{
 	kill( Pid_i, SIGKILL );
-	unsigned count=0;
+	unsigned count = 0;
 	int Status_ii;
 	int Wait_ii = -1;
-	while( count<5 && Wait_ii<=0 )
+	while( count < 5 && Wait_ii <= 0 )
 	    {
 	    Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
 	    count++;
@@ -179,7 +179,7 @@ SystemCmd::doExecute( const string& Cmd )
 
 	const vector<const char*> env = make_env();
 
-	switch( (Pid_i=fork()) )
+	switch( (Pid_i = fork()) )
 	    {
 	    case 0:
 		if( dup2( sout[1], STDOUT_FILENO )<0 )
@@ -237,7 +237,7 @@ SystemCmd::doExecute( const string& Cmd )
 	{
 	Ret_i = 0;
 	}
-    if( Ret_i==-127 || Ret_i==-1 )
+    if( Ret_i == -127 || Ret_i == -1 )
 	{
 	}
     if( !testmode )
@@ -297,3 +297,8 @@ SystemCmd::setCombine(bool val)
     Combine_b = val;
 }
 
+void
+SystemCmd::setTestmode(bool val)
+{
+    testmode = val;
+}
