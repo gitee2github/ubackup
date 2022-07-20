@@ -29,3 +29,7 @@ void split(const string& s, vector<string>& tokens, const string& delimiters)
         pos = s.find_first_of(delimiters, lastPos);
     }
 }
+
+void getRepoInfo(Snapshot& snap) {
+    return;
+}
