@@ -45,6 +45,7 @@ SystemCmd::SystemCmd(const string& Command_Cv, bool log_output)
 
 void SystemCmd::init()
 {
-    return;
+    File_aC[0] = File_aC[1] = NULL;
+    pfds[0].events = pfds[1].events = POLLIN;
 }
 
