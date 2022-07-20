@@ -71,5 +71,40 @@ GetOpts::parsed_opts
 GetOpts::parse(const char* command, const struct option* longopts)
 {
     parsed_opts result;
-    return results;
+    opterr = 0;			// we report errors on our own
+
+    string optstring = make_optstring(longopts);
+    short2long_t short2long = make_short2long(longopts);
+
+    while (true)
+    {
+	int option_index = 0;
+	int c = getopt_long(argc, argv, optstring.c_str(), longopts, &option_index);
+
+	switch (c)
+	{
+	    case -1:
+		return result;
+
+	    case '?':
+		cerr << "Unknown option " << argv[optind - 1] << endl;
+		cerr << "Try 'ubackup --help' for more information." << endl;
+		exit(EXIT_FAILURE);
+
+	    case ':':
+        cerr << "Missing argument for command option " << argv[optind - 1] << endl;
+		cerr << "Try 'ubackup --help' for more information." << endl;
+		exit(EXIT_FAILURE);
+
+	    default:
+		const char* opt = c ? short2long[c] : longopts[option_index].name;		
+		result[opt].push_back(optarg ? optarg : "");
+		while (optind < argc && *argv[optind] != '-') {
+			result[opt].push_back(argv[optind] ? argv[optind] : "");
+			optind++;
+		}
+		
+		break;
+	}
+    }
 }
