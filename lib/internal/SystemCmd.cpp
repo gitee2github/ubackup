@@ -67,5 +67,10 @@ SystemCmd::closeOpenFds() const
     }
 }
 
+int
+SystemCmd::execute(const string& Cmd_Cv)
+{
+	return 0;
+}
 
 
