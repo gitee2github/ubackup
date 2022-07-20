@@ -65,3 +65,17 @@ function active_unactive_logical_volume() {
     done
     return 0
 }
+
+#this funciton must call after have_lvm fun called
+function get_unactive_volume_list() {
+    local list=''
+    for volume in `/usr/sbin/lvs|sed '1d'|awk '{print $2"/"$1}'`
+    do
+        stat=`/usr/sbin/lvdisplay $volume|grep 'LV Status'|awk '{print $3}'`
+        if [ "$stat" = "NOT" ] ;then
+            list="$list $volume"
+        fi
+    done
+    echo $list
+    return 
+}
