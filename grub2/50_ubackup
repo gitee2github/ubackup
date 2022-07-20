@@ -168,3 +168,22 @@ update_bls_cmdline()
         sed -i -e "s/^options.*/options ${options}/" "${blsdir}/${bls}.conf"
     done
 }
+
+populate_menu()
+{
+    local -a files=($(get_sorted_bls))
+
+    gettext_printf "Generating boot entries from BLS files...\n" >&2
+
+    for bls in "${files[@]}"; do
+        read_config "${blsdir}/${bls}.conf"
+
+        menu="${menu}menuentry '${title}' ${grub_arg} --id=${bls} {\n"
+        menu="${menu}\t linux ${linux} ${options}\n"
+        if [ -n "${initrd}" ] ; then
+            menu="${menu}\t initrd ${boot_prefix}${initrd}\n"
+        fi
+        menu="${menu}}\n\n"
+    done
+    printf "$menu"
+}
