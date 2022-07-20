@@ -28,6 +28,11 @@ class Config {
 public:
     Config(const string& configPath);
     virtual ~Config(){};
+    string GetLastBackupPath() {
+        return lastBackupPath;
+    }
+private:
+    string lastBackupPath;
 };
 
 #endif 
