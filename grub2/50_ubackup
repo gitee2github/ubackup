@@ -284,3 +284,29 @@ EOF
 
   exit 0
 fi
+
+mktitle ()
+{
+  local title_type
+  local version
+  local OS_NAME
+  local OS_VERS
+
+  title_type=$1 && shift
+  version=$1 && shift
+
+  OS_NAME="$(eval $(grep ^NAME= /etc/os-release) ; echo ${NAME})"
+  OS_VERS="$(eval $(grep ^VERSION= /etc/os-release) ; echo ${VERSION%% *})" 
+
+  case $title_type in
+    recovery)
+      title=$(printf '%s GNU/Linux, with Linux %s (recovery mode)' \
+                     "${OS_NAME}" "${version}")
+      ;;
+    *)
+      title=$(printf '%s GNU/Linux, with Linux %s' \
+                     "${OS_NAME}" "${version}")
+      ;;
+  esac
+  echo -n ${title}
+}
