@@ -93,31 +93,31 @@ SystemCmd::executeRestricted( const string& Command_Cv,
     unsigned long ls = 0;
     unsigned long start_time = time(NULL);
     while( !ExceedTime && !ExceedLines && !doWait( false, ret ) )
-	{
+    {
 	if( MaxTimeSec>0 )
-	    {
+	{
 	    ts = time(NULL)-start_time;
-	    }
+       	}
 	if( MaxLineOut>0 )
-	    {
+	{
 	    ls = numLines()+numLines(false,IDX_STDERR);
-	    }
+	}
 	ExceedTime = MaxTimeSec>0 && ts>MaxTimeSec;
 	ExceedLines = MaxLineOut>0 && ls>MaxLineOut;
 	sleep( 1 );
-	}
+    }
     if( ExceedTime || ExceedLines )
-	{
+    {
 	kill( Pid_i, SIGKILL );
 	unsigned count = 0;
 	int Status_ii;
 	int Wait_ii = -1;
 	while( count < 5 && Wait_ii <= 0 )
-	    {
+	{
 	    Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
 	    count++;
 	    sleep( 1 );
-	    }
+	}
 	/*
 	r = kill( Pid_i, SIGKILL );
 	count=0;
@@ -130,9 +130,9 @@ SystemCmd::executeRestricted( const string& Command_Cv,
 	    }
 	*/
 	Ret_i = -257;
-	}
+    }
     else
-	Ret_i = ret;
+    	    Ret_i = ret;
     return ret;
 }
 
@@ -144,9 +144,9 @@ SystemCmd::doExecute( const string& Cmd )
 {
     string Shell_Ci = PRIMARY_SHELL;
     if( access( Shell_Ci.c_str(), X_OK ) != 0 )
-	{
+    {
 	Shell_Ci = ALTERNATE_SHELL;
-	}
+    }
 
     lastCmd = Cmd;
 
@@ -156,47 +156,47 @@ SystemCmd::doExecute( const string& Cmd )
     int serr[2];
     bool ok_bi = true;
     if( !testmode && pipe(sout)<0 )
-	{
+    {
 	ok_bi = false;
-	}
+    }
     if( !testmode && !Combine_b && pipe(serr)<0 )
-	{
+    {
 	ok_bi = false;
-	}
+    }
     if( !testmode && ok_bi )
-	{
+    {
 	pfds[0].fd = sout[0];
 	if( fcntl( pfds[0].fd, F_SETFL, O_NONBLOCK )<0 )
-	    {
-	    }
+	{
+	}
 	if( !Combine_b )
-	    {
+	{
 	    pfds[1].fd = serr[0];
 	    if( fcntl( pfds[1].fd, F_SETFL, O_NONBLOCK )<0 )
-		{
-		}
+	    {
 	    }
+	}
 
 	const vector<const char*> env = make_env();
 
 	switch( (Pid_i = fork()) )
-	    {
+	{
 	    case 0:
 		if( dup2( sout[1], STDOUT_FILENO )<0 )
-		    {
-		    }
+		{
+		}
 		if( !Combine_b && dup2( serr[1], STDERR_FILENO )<0 )
-		    {
-		    }
+		{
+		}
 		if( Combine_b && dup2( STDOUT_FILENO, STDERR_FILENO )<0 )
-		    {
-		    }
+		{
+		}
 		if( close( sout[0] )<0 )
-		    {
-		    }
+		{
+		}
 		if( !Combine_b && close( serr[0] )<0 )
-		    {
-		    }
+		{
+		}
 		closeOpenFds();
 		Ret_i = execle(Shell_Ci.c_str(), Shell_Ci.c_str(), "-c", Cmd.c_str(), nullptr, &env[0]);
 		break;
@@ -205,45 +205,45 @@ SystemCmd::doExecute( const string& Cmd )
 		break;
 	    default:
 		if( close( sout[1] )<0 )
-		    {
-		    }
+		{
+		}
 		if( !Combine_b && close( serr[1] )<0 )
-		    {
-		    }
+		{
+		}
 		Ret_i = 0;
 		File_aC[IDX_STDOUT] = fdopen( sout[0], "r" );
 		if( File_aC[IDX_STDOUT] == NULL )
-		    {
-		    }
+		{
+		}
 		if( !Combine_b )
-		    {
+		{
 		    File_aC[IDX_STDERR] = fdopen( serr[0], "r" );
 		    if( File_aC[IDX_STDERR] == NULL )
-			{
-			}
-		    }
-		if( !Background_b )
 		    {
-		    doWait( true, Ret_i );
 		    }
+		}
+		if( !Background_b )
+		{
+    			doWait( true, Ret_i );
+		}
 		break;
-	    }
 	}
+    }
     else if( !testmode )
-	{
+    {
 	Ret_i = -1;
-	}
+    }
     else
-	{
+    {
 	Ret_i = 0;
-	}
+    }
     if( Ret_i == -127 || Ret_i == -1 )
-	{
-	}
+    {
+    }
     if( !testmode )
-	checkOutput();
+    	    checkOutput();
     if (Ret_i != 0 && log_output)
-	logOutput();
+    	    logOutput();
     return Ret_i;
 }
 
@@ -254,29 +254,28 @@ SystemCmd::doWait( bool Hang_bv, int& Ret_ir )
     int Status_ii;
 
     do
-	{
+    {
 	int sel = poll( pfds, Combine_b?1:2, 1000 );
 	if (sel < 0)
-	    {
-	    }
-	if( sel>0 )
-	    {
-	    checkOutput();
-	    }
-	Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
+	{
 	}
-    while( Hang_bv && Wait_ii == 0 );
+	if( sel>0 )
+	{
+    		checkOutput();
+	}
+	Wait_ii = waitpid( Pid_i, &Status_ii, WNOHANG );
+    }while( Hang_bv && Wait_ii == 0 );
 
     if( Wait_ii != 0 )
-	{
+    {
 	checkOutput();
 	fclose( File_aC[IDX_STDOUT] );
 	File_aC[IDX_STDOUT] = NULL;
 	if( !Combine_b )
-	    {
+	{
 	    fclose( File_aC[IDX_STDERR] );
 	    File_aC[IDX_STDERR] = NULL;
-	    }
+	}
 	if (WIFEXITED(Status_ii))
 	{
 	    Ret_ir = WEXITSTATUS(Status_ii);
@@ -287,7 +286,7 @@ SystemCmd::doWait( bool Hang_bv, int& Ret_ir )
 	{
 	    Ret_ir = -127;
 	}
-	}
+    }
     return Wait_ii != 0;
 }
 
@@ -306,5 +305,18 @@ SystemCmd::setTestmode(bool val)
 unsigned
 SystemCmd::numLines( bool Sel_bv, OutputStream Idx_iv ) const
 {
-	return 0;
+    unsigned Ret_ii;
+
+    if( Idx_iv > 1 )
+    {
+    }
+    if( Sel_bv )
+    {
+	Ret_ii = SelLines_aC[Idx_iv].size();
+    }
+    else
+    {
+	Ret_ii = Lines_aC[Idx_iv].size();
+    }
+    return Ret_ii;
 }
