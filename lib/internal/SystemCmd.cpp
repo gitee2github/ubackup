@@ -51,7 +51,10 @@ void SystemCmd::init()
 
 SystemCmd::~SystemCmd()
 {
-    return;
+    if( File_aC[IDX_STDOUT] )
+	fclose( File_aC[IDX_STDOUT] );
+    if( File_aC[IDX_STDERR] )
+	fclose( File_aC[IDX_STDERR] );
 }
 
 
