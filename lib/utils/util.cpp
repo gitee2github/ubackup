@@ -72,5 +72,10 @@ Log setLog(const string& repo, const string& snapshotID, operationType type, boo
 }
 
 bool createFile(string fileName) {
+    ofstream file;
+    file.open(fileName);
+    if (!file.is_open()) {
+        return false;
+    }
     return true;
 }
