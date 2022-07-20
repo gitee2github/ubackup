@@ -29,7 +29,21 @@ const option OPTIONS[3] = {
 
 string GlobalOptions::help_text()
 {
-    return " ";
+    return string("    Global options:") + '\n'
+    + "\t--help, -h\t\t\thelp for ubackup." + '\n'
+    + "\t--version, -v\t\t\tprint version and exit." + '\n' + '\n'
+    + "Available Commands:" + '\n'
+    + "\tbackup full\t\t\tback up full system." + '\n'
+    + "\tbackup system\t\t\tback up the necessary files to support the operation of the system." + '\n'
+    + "\tbackup data\t\t\tback up user-specified directories or files." + '\n'
+    + "\trestore full\t\t\trestore full system from a snapshot." + '\n'
+    + "\trestore system\t\t\trestore system from a system type snapshot." + '\n'
+    + "\trestore data\t\t\trestore user data from a snapshot." + '\n'
+    + "\tremove\t\t\tremoves snapshots according to a policy." + '\n'
+    + "\tlist\t\t\tlist objects in the repository based on type." + '\n'
+    + "\tlogs\t\t\tshow option logs." + '\n'
+    + "\tshow-exclude\t\t\tshows default exclude files or directories." + '\n'
+    + "\tshow-include\t\t\tshows must include files or directories before backupfull." + '\n';
 }
 
 void GlobalOptions::parse_options()
