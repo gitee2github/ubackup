@@ -481,3 +481,10 @@ SystemCmd::logOutput() const
 	for (unsigned i = lines - line_limit / 2; i < lines; ++i){}
     }
 }
+
+vector<const char*>
+SystemCmd::make_env() const
+{
+	vector<const char*> env;
+	return env;
+}
