@@ -59,3 +59,8 @@ Snapshot setSnap(const string& repo, const string& snapshotID, backupType type) 
     getRepoInfo(snap);
     return snap;
 }
+
+Log setLog(const string& repo, const string& snapshotID, operationType type, bool status, string comment) {
+    Log log;
+    return log;
+}
