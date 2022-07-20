@@ -41,6 +41,8 @@ public:
     parsed_opts parse(const struct option* longopts);
     parsed_opts parse(const char* command, const struct option* longopts);
 
+    bool hasArgs() const { return argc - optind > 0; }
+
 private:
 
     int argc;
