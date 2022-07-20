@@ -43,3 +43,14 @@ function backup_restore_mount() {
     mount -n -tdevpts  none /sysroot/dev/pts
     mount -n -ttmpfs none /sysroot/dev/shm
 }
+
+function backup_restore_umount() {
+    umount /sysroot/proc
+    umount /sysroot/sys
+    umount /sysroot/dev/pts
+    umount /sysroot/dev/shm
+    umount /sysroot/dev
+    umount /sysroot/boot/efi
+    umount /sysroot/boot
+    mount -o remount,ro /dev/mapper/uos-root
+}
