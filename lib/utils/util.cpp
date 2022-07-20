@@ -52,5 +52,10 @@ void getRepoInfo(Snapshot& snap) {
 
 Snapshot setSnap(const string& repo, const string& snapshotID, backupType type) {
     Snapshot snap;
+    snap.repo = repo;
+    snap.snapshotID = snapshotID;
+    snap.time = time(0);
+    snap.type = type;
+    getRepoInfo(snap);
     return snap;
 }
