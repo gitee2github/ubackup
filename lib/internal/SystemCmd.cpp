@@ -357,3 +357,8 @@ SystemCmd::invalidate()
     }
 }
 
+void
+SystemCmd::checkOutput()
+{
+	return ;
+}
