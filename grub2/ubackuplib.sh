@@ -137,3 +137,11 @@ function update_change_grub2_entry() {
     fi
     return
 }
+
+function grub2_menu_restore() {
+    if [ -d /sys/firmware/efi/ ] ; then 
+        cp -f /etc/ubackup/grub2/org.cfg /boot/efi/EFI/UnionTech/grub.cfg
+    else
+        cp -f /etc/ubackup/grub2/org.cfg /boot/grub2/grub.cfg
+    fi
+}
