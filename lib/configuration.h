@@ -47,12 +47,17 @@ public:
     string GetLogFile() {
         return logFile;
     }
+    string GetSnapInfoPath() {
+        return snapInfoPath;
+    }
 private:
     string lastBackupPath;
     string resticPasswd;
+    int snapCnt;
     vector<string> excludes;
     vector<string> includes;
     vector<string> cannotExcludes;
+    string snapInfoPath;
     string logFile;
 };
 
