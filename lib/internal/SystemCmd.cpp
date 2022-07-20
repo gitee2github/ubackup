@@ -349,6 +349,11 @@ SystemCmd::getLine( unsigned Nr_iv, bool Sel_bv, OutputStream Idx_iv ) const
 void
 SystemCmd::invalidate()
 {
-	return;
+    for (int Idx_ii = 0; Idx_ii < 2; Idx_ii++)
+    {
+	SelLines_aC[Idx_ii].resize(0);
+	Lines_aC[Idx_ii].clear();
+	NewLineSeen_ab[Idx_ii] = true;
+    }
 }
 
