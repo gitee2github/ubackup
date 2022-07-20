@@ -139,8 +139,110 @@ SystemCmd::executeRestricted( const string& Command_Cv,
 #define PRIMARY_SHELL "/bin/sh"
 #define ALTERNATE_SHELL "/bin/bash"
 
-int
+int 
 SystemCmd::doExecute( const string& Cmd )
 {
-     return 0;
+    string Shell_Ci = PRIMARY_SHELL;
+    if( access( Shell_Ci.c_str(), X_OK ) != 0 )
+	{
+	Shell_Ci = ALTERNATE_SHELL;
+	}
+
+    lastCmd = Cmd;
+
+    File_aC[IDX_STDERR] = File_aC[IDX_STDOUT] = NULL;
+    invalidate();
+    int sout[2];
+    int serr[2];
+    bool ok_bi = true;
+    if( !testmode && pipe(sout)<0 )
+	{
+	ok_bi = false;
+	}
+    if( !testmode && !Combine_b && pipe(serr)<0 )
+	{
+	ok_bi = false;
+	}
+    if( !testmode && ok_bi )
+	{
+	pfds[0].fd = sout[0];
+	if( fcntl( pfds[0].fd, F_SETFL, O_NONBLOCK )<0 )
+	    {
+	    }
+	if( !Combine_b )
+	    {
+	    pfds[1].fd = serr[0];
+	    if( fcntl( pfds[1].fd, F_SETFL, O_NONBLOCK )<0 )
+		{
+		}
+	    }
+
+	const vector<const char*> env = make_env();
+
+	switch( (Pid_i=fork()) )
+	    {
+	    case 0:
+		if( dup2( sout[1], STDOUT_FILENO )<0 )
+		    {
+		    }
+		if( !Combine_b && dup2( serr[1], STDERR_FILENO )<0 )
+		    {
+		    }
+		if( Combine_b && dup2( STDOUT_FILENO, STDERR_FILENO )<0 )
+		    {
+		    }
+		if( close( sout[0] )<0 )
+		    {
+		    }
+		if( !Combine_b && close( serr[0] )<0 )
+		    {
+		    }
+		closeOpenFds();
+		Ret_i = execle(Shell_Ci.c_str(), Shell_Ci.c_str(), "-c", Cmd.c_str(), nullptr, &env[0]);
+		break;
+	    case -1:
+		Ret_i = -1;
+		break;
+	    default:
+		if( close( sout[1] )<0 )
+		    {
+		    }
+		if( !Combine_b && close( serr[1] )<0 )
+		    {
+		    }
+		Ret_i = 0;
+		File_aC[IDX_STDOUT] = fdopen( sout[0], "r" );
+		if( File_aC[IDX_STDOUT] == NULL )
+		    {
+		    }
+		if( !Combine_b )
+		    {
+		    File_aC[IDX_STDERR] = fdopen( serr[0], "r" );
+		    if( File_aC[IDX_STDERR] == NULL )
+			{
+			}
+		    }
+		if( !Background_b )
+		    {
+		    doWait( true, Ret_i );
+		    }
+		break;
+	    }
+	}
+    else if( !testmode )
+	{
+	Ret_i = -1;
+	}
+    else
+	{
+	Ret_i = 0;
+	}
+    if( Ret_i==-127 || Ret_i==-1 )
+	{
+	}
+    if( !testmode )
+	checkOutput();
+    if (Ret_i != 0 && log_output)
+	logOutput();
+    return Ret_i;
 }
