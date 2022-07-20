@@ -486,5 +486,18 @@ vector<const char*>
 SystemCmd::make_env() const
 {
 	vector<const char*> env;
+
+	for (char** v = environ; *v != NULL; ++v)
+	{
+		if (strncmp(*v, "LC_ALL=", strlen("LC_ALL=")) != 0 &&
+		strncmp(*v, "LANGUAGE=", strlen("LANGUAGE=")) != 0)
+		env.push_back(*v);
+	}
+
+	env.push_back("LC_ALL=C");
+	env.push_back("LANGUAGE=C");
+
+	env.push_back(nullptr);
+
 	return env;
 }
