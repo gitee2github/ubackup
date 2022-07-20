@@ -291,3 +291,9 @@ SystemCmd::doWait( bool Hang_bv, int& Ret_ir )
     return Wait_ii != 0;
 }
 
+void
+SystemCmd::setCombine(bool val)
+{
+    Combine_b = val;
+}
+
