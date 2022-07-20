@@ -31,5 +31,21 @@ void split(const string& s, vector<string>& tokens, const string& delimiters)
 }
 
 void getRepoInfo(Snapshot& snap) {
-    return;
+    string repo = snap.repo;
+    string dfCmd = "df " + repo + " | awk 'END {print}'";
+    SystemCmd cmd(dfCmd);
+    if (cmd.retcode()) {
+        for (auto out : cmd.stderr()) {
+            cerr << out << endl;
+        }
+        return;
+    }
+    string result = cmd.stdout().front();
+    vector<string> tmp;
+    split(result, tmp);
+    if (tmp.size() < 6) {
+        return;
+    }
+    snap.repoDevice = tmp[0];
+    snap.repoMount = tmp[5];
 }
