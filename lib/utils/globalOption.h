@@ -29,6 +29,9 @@ using namespace std;
 
 class GlobalOptions : public Options
 {
+
+public:
+    static std::string help_text();
 private:
 
     void parse_options();
