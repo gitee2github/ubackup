@@ -70,3 +70,7 @@ Log setLog(const string& repo, const string& snapshotID, operationType type, boo
     log.comment = comment;
     return log;
 }
+
+bool createFile(string fileName) {
+    return true;
+}
