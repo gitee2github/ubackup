@@ -24,3 +24,13 @@ function log_debug() {
 	    echo "$(date "+%Y-%m-%d %H:%M:%S") :$@" >> /var/log/ubackup.log
     fi
 }
+
+function have_lvm() {
+    lvs_info=`/usr/sbin/lvs`
+    if [ "X$lvs_info" = "X" ] ;then
+        ret=0
+    else
+        ret=1
+    fi
+    return $ret
+}
