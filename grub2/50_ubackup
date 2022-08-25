@@ -530,8 +530,8 @@ while [ "x$list" != "x" ] ; do
         "${GRUB_CMDLINE_LINUX} BACKUPID=$id ${GRUB_CMDLINE_LINUX_DEFAULT}"
   done
   if [ -d /etc/ubackup ] ;then
-    if [ -d /sys/firmware/efi/ -a -f /boot/efi/EFI/UnionTech/grub.cfg ] ;then
-      cat /boot/efi/EFI/UnionTech/grub.cfg |grep -B 2000 '### END /etc/grub.d/01_users ###' > /etc/ubackup/grub2/grub2_only_one.cfg
+    if [ -d /sys/firmware/efi/ -a -f /boot/efi/EFI/openEuler/grub.cfg ] ;then
+      cat /boot/efi/EFI/openEuler/grub.cfg |grep -B 2000 '### END /etc/grub.d/01_users ###' > /etc/ubackup/grub2/grub2_only_one.cfg
     fi
 
     if [ -f /boot/grub2/grub.cfg ] ;then
