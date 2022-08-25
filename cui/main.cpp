@@ -285,6 +285,7 @@ void cmdBackupSys() {
 	} else {
 		cout << "backup successful, snapshot: " << snapID << endl;
 	}
+	exit(EXIT_SUCCESS);
 }
 
 void cmdBackupData() {
